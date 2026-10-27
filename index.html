@@ -220,6 +220,12 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
 .seg { display: inline-flex; background: var(--field); border-radius: 8px; padding: 2px; }
 .seg button { border: none; background: none; padding: 5px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
 .seg button[aria-pressed="true"] { background: var(--win-solid); box-shadow: 0 1px 3px rgba(0,0,0,.25); font-weight: 600; }
+.catnight { margin-top: 14px; display: grid; gap: 10px; }
+.catnight .row { display: flex; align-items: center; gap: 12px; font-size: 13.5px; flex-wrap: wrap; }
+.catnight .row > span:first-child, .catnight .row > label { min-width: 110px; color: var(--fg); }
+.catnight input[type="range"] { flex: 1; min-width: 120px; max-width: 260px; accent-color: var(--accent); }
+.catnight #nightval { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 3.5ch; }
+.catnight .hint { margin: 0; font-size: 12px; color: var(--muted); }
 .walls { display: flex; gap: 10px; flex-wrap: wrap; }
 .walls button { width: 92px; height: 58px; border-radius: 8px; border: 2px solid transparent; cursor: pointer; padding: 0; }
 .walls button[aria-pressed="true"] { border-color: var(--accent); }
@@ -687,6 +693,17 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
           <button type="button" data-wall="gauss" aria-pressed="false" aria-label="Gaussian noise" style="background:radial-gradient(circle at 40% 40%,#777,#222)"></button>
           <button type="button" data-wall="graphite" aria-pressed="false" aria-label="Graphite" style="background:linear-gradient(160deg,#3a3d44,#15161a)"></button>
         </div>
+        <div class="catnight">
+          <div class="row"><span>Cat at night</span>
+            <div class="seg" role="group" aria-label="Cat day or night">
+              <button type="button" data-catnight="auto" aria-pressed="true">Auto</button>
+              <button type="button" data-catnight="day" aria-pressed="false">Day</button>
+              <button type="button" data-catnight="night" aria-pressed="false">Night</button>
+            </div>
+          </div>
+          <div class="row"><label for="nightlvl">Night darkness</label><input type="range" id="nightlvl" min="30" max="100" value="85" aria-label="Night darkness"><span id="nightval">85%</span></div>
+          <p class="hint">Auto follows the Light/Dark appearance above. Night draws the cat and the message in white ink on dark paper.</p>
+        </div>
       </section>
       <section>
         <h2>Accessibility</h2>
@@ -786,7 +803,27 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
     if (wallName === 'photo') drawWall();
   });
   wallImg.src = WALLPAPER;
-  var catImg = new Image(); catImg.addEventListener('load', function () { drawWall(); }); catImg.src = CAT_IMG;
+  var catImg = new Image(), catInv = document.createElement('canvas');
+  catImg.addEventListener('load', function () {
+    // Build a white-ink copy for night mode (pixel inversion keeps the transparency).
+    try {
+      catInv.width = catImg.naturalWidth; catInv.height = catImg.naturalHeight;
+      var ic = catInv.getContext('2d'); ic.drawImage(catImg, 0, 0);
+      ic.globalCompositeOperation = 'source-in'; ic.fillStyle = '#f3f0e8'; ic.fillRect(0, 0, catInv.width, catInv.height);
+      ic.globalCompositeOperation = 'source-over'; catInv.ok = true;
+    } catch (e) { catInv.ok = false; }
+    drawWall();
+  });
+  catImg.src = CAT_IMG;
+  var catNight = prefs.catNight || 'auto', nightLevel = typeof prefs.nightLevel === 'number' ? prefs.nightLevel : 85;
+  function catIsNight() { return catNight === 'night' || (catNight === 'auto' && isDark()); }
+  function mixHex(a, b, t) { var pa = [parseInt(a.slice(1, 3), 16), parseInt(a.slice(3, 5), 16), parseInt(a.slice(5, 7), 16)], pb = [parseInt(b.slice(1, 3), 16), parseInt(b.slice(3, 5), 16), parseInt(b.slice(5, 7), 16)]; return 'rgb(' + pa.map(function (v, i) { return Math.round(v + (pb[i] - v) * t); }).join(',') + ')'; }
+  $$('[data-catnight]').forEach(function (b) {
+    b.setAttribute('aria-pressed', String(b.dataset.catnight === catNight));
+    b.addEventListener('click', function () { catNight = b.dataset.catnight; prefs.catNight = catNight; save(); $$('[data-catnight]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); }); drawWall(); });
+  });
+  $('#nightlvl').value = nightLevel; $('#nightval').textContent = nightLevel + '%';
+  $('#nightlvl').addEventListener('input', function () { nightLevel = +this.value; $('#nightval').textContent = nightLevel + '%'; prefs.nightLevel = nightLevel; save(); drawWall(); });
   function paintScene(c, W, H, dark) {
     var g, name = wallName;
     if (name === 'photo' && !(wallImg.complete && wallImg.naturalWidth)) name = 'cat';
@@ -841,18 +878,19 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   }
   function paintSketchBg(c, W, H, dark) {
     // plain paper: one flat tone with a very soft vignette
-    c.fillStyle = '#f5f3ef'; c.fillRect(0, 0, W, H);   // the cat wallpaper stays light paper in both themes
+    var night = catIsNight(), t = nightLevel / 100;
+    c.fillStyle = night ? mixHex('#f5f3ef', '#141417', .55 + .45 * t) : '#f5f3ef'; c.fillRect(0, 0, W, H);
     var v = c.createRadialGradient(W * .45, H * .4, Math.min(W, H) * .2, W * .5, H * .5, Math.max(W, H) * .85);
-    v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.07)');
+    v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, night ? 'rgba(0,0,0,' + (.25 + .35 * t) + ')' : 'rgba(0,0,0,.07)');
     c.fillStyle = v; c.fillRect(0, 0, W, H);
   }
   function paintCat(c, W, H, dark) {
-    var ink = '#1e1c1a';
+    var night = catIsNight(), ink = night ? '#f3f0e8' : '#1e1c1a';
     var ch = Math.min(H * .5, W * .36), cw = catImg.naturalWidth ? ch * catImg.naturalWidth / catImg.naturalHeight : ch * .94;
     var cx = Math.max(W * .04, 24), cy = H - Math.max(H * .11, 70) - ch;
     c.save();
     if (catImg.complete && catImg.naturalWidth) {
-      c.drawImage(catImg, cx, cy, cw, ch);
+      c.drawImage(night && catInv.ok ? catInv : catImg, cx, cy, cw, ch);
     }
     // handwritten message, no box
     var f1 = Math.max(26, Math.min(W, H) * .07), f2 = Math.max(16, f1 * .62), tx = cx + cw + Math.min(W, H) * .04, ty = cy + ch * .66;
@@ -880,7 +918,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   }
   function drawWall() {
     if (!wall) return;
-    document.body.classList.toggle('wall-cat', wallName === 'cat' || (wallName === 'photo' && !(wallImg.complete && wallImg.naturalWidth)));
+    document.body.classList.toggle('wall-cat', (wallName === 'cat' || (wallName === 'photo' && !(wallImg.complete && wallImg.naturalWidth))) && !catIsNight());
     // While the reveal runs, render at half resolution so the per-frame blur stays cheap; the final frame is full resolution.
     var dpr = revealK > 0 ? .5 : Math.min(2, window.devicePixelRatio || 1);
     var W = wall.width = Math.floor(innerWidth * dpr), H = wall.height = Math.floor(innerHeight * dpr), dark = isDark();
