@@ -1,441 +1,1014 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alireza Kheirandish</title>
-  <meta name="description" content="Personal website of Alireza Kheirandish, PhD student at Georgia Tech working on diffusion models, inverse problems, and distribution shift detection." />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Alireza Kheirandish — Ph.D. student at Georgia Tech working on diffusion models for inverse problems.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f6f5f0'/%3E%3Crect width='64' height='17' rx='14' fill='%23f5c541'/%3E%3Crect y='12' width='64' height='5' fill='%23f5c541'/%3E%3Cpath d='M14 30h36M14 39h36M14 48h24' stroke='%23cfcdc6' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>html{color-scheme:dark} :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} img{max-width:100%} [hidden]{display:none!important}</style>
+<title>Al's Desktop</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a full-viewport simulated desktop — fixed menu bar on top, a dock at the bottom,
+   and draggable app windows in between. Dark-first (macOS dark), light mode via Settings. */
+:root {
+  --fg: #f2f1ec;
+  --muted: #a3a29c;
+  --faint: #6f6e69;
+  --rule: rgba(255,255,255,.09);
+  --win: rgba(38,38,42,.92);
+  --win-solid: #28282c;
+  --side: rgba(26,26,29,.82);
+  --field: rgba(255,255,255,.07);
+  --hover: rgba(255,255,255,.06);
+  --sel: rgba(255,255,255,.12);
+  --accent: #4f8cff;
+  --accent-ink: #9cc0ff;
+  --notes: #f5c541;
+  --remind: #ff7a45;
+  --term-bg: #121214;
+  --term-fg: #d6f5c9;
+  --bar: rgba(20,20,22,.55);
+  --dock: rgba(40,40,44,.55);
+  --shadow: 0 30px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.06);
+  --ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --fg: #1d1d1f; --muted: #6e6e73; --faint: #a1a1a6; --rule: rgba(0,0,0,.08);
+    --win: rgba(255,255,255,.9); --win-solid: #ffffff; --side: rgba(242,242,247,.82);
+    --field: rgba(0,0,0,.05); --hover: rgba(0,0,0,.04); --sel: rgba(0,0,0,.08);
+    --accent: #2f6fe4; --accent-ink: #1d4fb4; --notes: #e0a800; --remind: #ff6a2f;
+    --bar: rgba(255,255,255,.45); --dock: rgba(255,255,255,.45);
+    --shadow: 0 30px 70px rgba(0,0,0,.28), 0 0 0 1px rgba(0,0,0,.12);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --fg: #1d1d1f; --muted: #6e6e73; --faint: #a1a1a6; --rule: rgba(0,0,0,.08);
+  --win: rgba(255,255,255,.9); --win-solid: #ffffff; --side: rgba(242,242,247,.82);
+  --field: rgba(0,0,0,.05); --hover: rgba(0,0,0,.04); --sel: rgba(0,0,0,.08);
+  --accent: #2f6fe4; --accent-ink: #1d4fb4; --notes: #e0a800; --remind: #ff6a2f;
+  --bar: rgba(255,255,255,.45); --dock: rgba(255,255,255,.45);
+  --shadow: 0 30px 70px rgba(0,0,0,.28), 0 0 0 1px rgba(0,0,0,.12);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: #16182a; color: var(--fg);
+  font-family: var(--ui); font-size: 14px; line-height: 1.5;
+  overflow: hidden; -webkit-font-smoothing: antialiased;
+  padding-left: max(0px, env(safe-area-inset-left, 0px));
+  padding-right: max(0px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+a { color: var(--accent-ink); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent); text-underline-offset: 2px; }
+button { font: inherit; color: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#wall { position: fixed; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
 
-  <style>
-    :root {
-      --bg: #ffffff;
-      --text: #222222;
-      --muted: #666666;
-      --light: #f4f4f4;
-      --border: #dddddd;
-      --link: #2457a6;
-      --link-hover: #103b78;
-      --max-width: 820px;
-    }
+/* Menu bar */
+#bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 28px; z-index: 50;
+  display: flex; align-items: center; gap: 1.2rem; font-size: 13px; font-weight: 500;
+  background: var(--bar); backdrop-filter: blur(30px) saturate(1.4); -webkit-backdrop-filter: blur(30px) saturate(1.4);
+  padding-left: max(14px, env(safe-area-inset-left, 0px)); padding-right: max(14px, env(safe-area-inset-right, 0px));
+  padding-top: env(safe-area-inset-top, 0px); box-sizing: content-box;
+}
+#bar .logo { width: 15px; height: 15px; border-radius: 50%; background: conic-gradient(from 200deg, var(--accent), #c084fc, #f472b6, var(--accent)); display: inline-block; }
+#bar .appname { font-weight: 700; }
+#bar .menus { display: flex; gap: 1.1rem; color: var(--fg); }
+#bar .right { margin-left: auto; display: flex; gap: .9rem; align-items: center; font-weight: 500; }
+#bar .right button { background: none; border: none; cursor: pointer; padding: 0 2px; display: inline-flex; }
+#bar svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+#clock { font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 720px) { #bar .menus { display: none; } }
 
-    * {
-      box-sizing: border-box;
-    }
+/* Desktop files */
+#desk { position: fixed; top: calc(28px + env(safe-area-inset-top, 0px) + 18px); right: max(16px, env(safe-area-inset-right, 0px)); z-index: 1; display: grid; gap: 14px; }
+.dfile { width: 84px; background: none; border: none; cursor: pointer; display: grid; justify-items: center; gap: 4px; padding: 6px 2px; border-radius: 6px; text-decoration: none; }
+.dfile:hover { background: rgba(255,255,255,.08); }
+.dfile .ic { width: 46px; height: 56px; background: #f4f4f6; border-radius: 3px 10px 3px 3px; position: relative; box-shadow: 0 2px 6px rgba(0,0,0,.35); }
+.dfile .ic::before { content: ""; position: absolute; right: 0; top: 0; border-style: solid; border-width: 0 12px 12px 0; border-color: transparent #c9c9ce #c9c9ce transparent; border-radius: 0 0 0 3px; }
+.dfile .ic span { position: absolute; left: 0; right: 0; bottom: 6px; text-align: center; font: 700 9px var(--mono); color: #c0392b; letter-spacing: .04em; }
+.dfile .ic i { position: absolute; left: 8px; right: 8px; height: 2px; background: #c9c9ce; border-radius: 1px; }
+.dfile .ic i:nth-of-type(1) { top: 16px; } .dfile .ic i:nth-of-type(2) { top: 22px; } .dfile .ic i:nth-of-type(3) { top: 28px; right: 18px; }
+.dfile b { font-weight: 500; font-size: 11.5px; line-height: 1.25; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.8); text-align: center; word-break: break-word; }
+@media (max-width: 720px) { #desk { display: none; } }
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.55;
-      font-size: 16px;
-    }
+/* Windows */
+.win {
+  position: fixed; z-index: 10; display: flex; flex-direction: column;
+  width: min(820px, calc(100vw - 32px)); height: min(540px, calc(100vh - 160px));
+  background: var(--win); backdrop-filter: blur(40px) saturate(1.6); -webkit-backdrop-filter: blur(40px) saturate(1.6);
+  border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; color: var(--fg);
+  min-width: 0;
+}
+.win[hidden] { display: none !important; }
+.win.max { top: calc(28px + env(safe-area-inset-top, 0px)) !important; left: 0 !important; width: 100vw !important; height: calc(100vh - 28px - env(safe-area-inset-top, 0px) - 92px) !important; border-radius: 0; }
+.win.dragging { user-select: none; transition: none; }
+.titlebar { height: 38px; flex: none; display: flex; align-items: center; justify-content: center; position: relative; font-size: 13px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--rule); cursor: default; touch-action: none; }
+.win.focused .titlebar { color: var(--fg); }
+.lights { position: absolute; left: 12px; top: 12px; display: flex; gap: 8px; }
+.lights button { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(0,0,0,.25); padding: 0; cursor: pointer; background: #4a4a4e; }
+.win.focused .lights .c { background: #ff5f57; } .win.focused .lights .m { background: #febc2e; } .win.focused .lights .z { background: #28c840; }
+.lights button span { display: none; }
+.body { flex: 1; display: flex; min-height: 0; }
+.side { width: 220px; flex: none; background: var(--side); border-right: 1px solid var(--rule); overflow-y: auto; padding: 10px 8px; display: flex; flex-direction: column; gap: 2px; }
+.main { flex: 1; min-width: 0; overflow-y: auto; }
+.side .grp { font-size: 11px; font-weight: 600; color: var(--faint); text-transform: uppercase; letter-spacing: .04em; padding: 10px 10px 4px; }
+.side .item { display: block; width: 100%; text-align: left; background: none; border: none; border-radius: 6px; padding: 6px 10px; cursor: pointer; line-height: 1.35; }
+.side .item:hover { background: var(--hover); }
+.side .item.on { background: var(--sel); }
+.side .item b { display: block; font-weight: 600; font-size: 13px; }
+.side .item small { display: block; color: var(--muted); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.side .item small time { color: var(--fg); margin-right: 4px; }
+.search { margin: 0 2px 6px; background: var(--field); border-radius: 7px; padding: 5px 9px; font-size: 12px; color: var(--faint); display: flex; gap: 6px; align-items: center; }
+.back { display: none; background: none; border: none; color: var(--accent-ink); cursor: pointer; padding: 6px 10px; font-weight: 600; }
+.panel { padding: 1rem 2rem 2.5rem; max-width: 46rem; }
+.panel h1 { font-size: 1.55rem; font-weight: 700; margin: .2rem 0 .8rem; letter-spacing: -.01em; text-wrap: balance; }
+.panel .stamp { text-align: center; font-size: 11.5px; color: var(--faint); margin-bottom: .5rem; }
+.panel p, .panel li { font-size: 14.5px; line-height: 1.6; }
+.panel p { margin: 0 0 .85rem; }
+.panel h3 { font-size: 1rem; margin: 1.2rem 0 .4rem; }
+.panel ul { padding-left: 1.2rem; margin: 0 0 .85rem; }
+.panel .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 1rem; }
+.panel .tags span { font-size: 11.5px; padding: 2px 9px; border-radius: 999px; background: var(--field); color: var(--muted); }
 
-    a {
-      color: var(--link);
-      text-decoration: none;
-    }
+/* Finder-style papers */
+.cols { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl th { text-align: left; font-weight: 500; color: var(--muted); font-size: 11.5px; padding: 8px 12px; border-bottom: 1px solid var(--rule); position: sticky; top: 0; background: var(--win-solid); }
+.tbl td { padding: 7px 12px; border-bottom: 1px solid var(--rule); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0; }
+.tbl td:first-child { max-width: none; width: 60%; }
+.tbl tr { cursor: default; }
+.tbl tbody tr:nth-child(even) { background: var(--hover); }
+.tbl tbody tr:hover { background: var(--sel); }
+.tbl tbody tr.on { background: var(--accent); color: #fff; }
+.tbl tbody tr.on td { color: #fff; }
+.tbl .fi { display: inline-block; width: 12px; height: 15px; background: #f4f4f6; border-radius: 1px 4px 1px 1px; vertical-align: -3px; margin-right: 8px; box-shadow: 0 0 0 1px rgba(0,0,0,.15); }
+.tblwrap { overflow: auto; flex: 1; }
+.preview { flex: none; border-top: 1px solid var(--rule); padding: 14px 18px; font-size: 13px; background: var(--side); max-height: 46%; overflow-y: auto; }
+.preview h3 { margin: 0 0 4px; font-size: 14px; line-height: 1.35; }
+.preview .au { color: var(--muted); margin: 0 0 6px; }
+.preview .au b { color: var(--fg); font-weight: 600; }
+.preview .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.btn { font-size: 12px; font-weight: 500; padding: 4px 11px; border-radius: 6px; border: 1px solid var(--rule); background: var(--field); cursor: pointer; text-decoration: none; color: var(--fg); }
+.btn:hover { background: var(--sel); }
+.btn.pri { background: var(--accent); color: #fff; border-color: transparent; }
+pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6e6; padding: 10px 12px; border-radius: 8px; margin: 10px 0 0; overflow-x: auto; }
 
-    a:hover {
-      color: var(--link-hover);
-      text-decoration: underline;
-    }
+/* Terminal */
+.term { flex: 1; min-width: 0; background: var(--term-bg); color: var(--term-fg); font: 12.5px/1.55 var(--mono); padding: 12px 14px; overflow-y: auto; cursor: text; }
+.term .out { white-space: pre-wrap; word-break: break-word; }
+.term .p { color: #7dc4ff; } .term .h { color: #ffd479; } .term .d { color: #8e8e93; } .term .ok { color: #7ee787; } .term a { color: #9cc0ff; }
+.term .line { display: flex; gap: 0; }
+.term input { flex: 1; min-width: 0; background: none; border: none; color: inherit; font: inherit; outline: none; padding: 0; caret-color: var(--term-fg); }
 
-    .page {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 28px 22px 60px;
-    }
+/* Reminders */
+.rem { padding: 14px 20px 20px; }
+.rem h2 { color: var(--remind); font-size: 1.5rem; margin: 4px 0 10px; display: flex; justify-content: space-between; }
+.rem label { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--rule); cursor: pointer; }
+.rem input { appearance: none; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--faint); margin: 2px 0 0; flex: none; display: grid; place-items: center; cursor: pointer; }
+.rem input:checked { background: var(--remind); border-color: var(--remind); }
+.rem input:checked::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+.rem input:checked + span { color: var(--faint); text-decoration: line-through; }
+.rem small { display: block; color: var(--faint); font-size: 12px; }
 
-    nav {
-      display: flex;
-      gap: 18px;
-      align-items: center;
-      margin-bottom: 46px;
-      font-size: 15px;
-    }
+/* Mail */
+.mail { padding: 0; }
+.mail .row { display: flex; gap: 10px; padding: 9px 18px; border-bottom: 1px solid var(--rule); font-size: 13.5px; align-items: center; }
+.mail .row b { color: var(--muted); font-weight: 500; width: 64px; flex: none; }
+.mail .row code { font-family: var(--ui); user-select: all; }
+.mail .msg { padding: 18px; font-size: 14.5px; line-height: 1.6; max-width: 40rem; }
+.mail .sig { color: var(--muted); font-size: 13px; margin-top: 1.2rem; }
+.mail .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 
-    nav a {
-      color: #333333;
-    }
+/* Diffusion app */
+.diffwrap { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.diffwrap canvas { flex: 1; min-height: 0; width: 100%; max-width: 100%; display: block; background: var(--term-bg); }
+.diffbar { flex: none; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding: 10px 14px; border-top: 1px solid var(--rule); font: 12px var(--mono); color: var(--muted); background: var(--side); }
+.diffbar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
 
-    nav a:first-child {
-      font-weight: 700;
-    }
+/* Settings */
+.set { padding: 0; }
+.set section { padding: 16px 20px; border-bottom: 1px solid var(--rule); }
+.set h2 { font-size: 13px; margin: 0 0 10px; color: var(--muted); font-weight: 600; }
+.seg { display: inline-flex; background: var(--field); border-radius: 8px; padding: 2px; }
+.seg button { border: none; background: none; padding: 5px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+.seg button[aria-pressed="true"] { background: var(--win-solid); box-shadow: 0 1px 3px rgba(0,0,0,.25); font-weight: 600; }
+.walls { display: flex; gap: 10px; flex-wrap: wrap; }
+.walls button { width: 92px; height: 58px; border-radius: 8px; border: 2px solid transparent; cursor: pointer; padding: 0; }
+.walls button[aria-pressed="true"] { border-color: var(--accent); }
+.about { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; font-size: 13px; }
+.about dt { color: var(--muted); } .about dd { margin: 0; }
+.switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13.5px; }
+.switch input { appearance: none; width: 38px; height: 22px; border-radius: 11px; background: var(--faint); position: relative; cursor: pointer; transition: background .2s; margin: 0; }
+.switch input::after { content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .2s; }
+.switch input:checked { background: #34c759; } .switch input:checked::after { transform: translateX(16px); }
 
-    .intro {
-      display: grid;
-      grid-template-columns: 150px 1fr;
-      gap: 28px;
-      align-items: start;
-      margin-bottom: 38px;
-    }
+/* Finder */
+.fpath { font-size: 12px; color: var(--muted); padding: 8px 16px; border-bottom: 1px solid var(--rule); display: flex; gap: 6px; align-items: center; }
+.fgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; padding: 14px; }
+.ffile { background: none; border: none; border-radius: 8px; padding: 10px 4px 8px; display: grid; justify-items: center; gap: 7px; cursor: pointer; text-decoration: none; color: var(--fg); font-size: 12px; line-height: 1.25; text-align: center; word-break: break-word; }
+.ffile:hover { background: var(--hover); }
+.ffile .fo { width: 58px; height: 44px; background: linear-gradient(#9ccaff, #5f9df0); border-radius: 4px 8px 6px 6px; position: relative; margin-top: 6px; }
+.ffile .fo::before { content: ""; position: absolute; top: -6px; left: 0; width: 24px; height: 8px; background: #5f9df0; border-radius: 3px 3px 0 0; }
+.ffile .doc { width: 40px; height: 50px; background: #f4f4f6; border-radius: 2px 9px 2px 2px; box-shadow: 0 1px 3px rgba(0,0,0,.3); position: relative; }
+.ffile .doc span { position: absolute; bottom: 5px; left: 0; right: 0; text-align: center; font: 700 8px var(--mono); color: #c0392b; letter-spacing: .04em; }
+.ffile .doc i { position: absolute; left: 7px; right: 7px; height: 2px; background: #cfcfd4; } .ffile .doc i:nth-of-type(1) { top: 13px; } .ffile .doc i:nth-of-type(2) { top: 18px; } .ffile .doc i:nth-of-type(3) { top: 23px; right: 15px; }
+.ffile .img { width: 58px; height: 44px; border-radius: 5px; background: linear-gradient(135deg, #f78fb3, #5b8def); box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+.ffile .app { width: 48px; height: 48px; border-radius: 12px; }
 
-    .portrait {
-      width: 150px;
-      height: 150px;
-      border-radius: 8px;
-      object-fit: cover;
-      background: var(--light);
-      border: 1px solid var(--border);
-    }
+/* Safari */
+.saf .url { margin: 10px 14px; background: var(--field); border-radius: 8px; padding: 6px 12px; font-size: 12.5px; color: var(--muted); text-align: center; }
+.saf h2 { font-size: 12px; color: var(--muted); margin: 14px 18px 8px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.fav { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; padding: 0 16px 16px; }
+.fav a { display: grid; justify-items: center; gap: 7px; text-decoration: none; color: var(--fg); font-size: 12px; text-align: center; padding: 10px 4px; border-radius: 10px; line-height: 1.25; }
+.fav a:hover { background: var(--hover); }
+.fav i { width: 54px; height: 54px; border-radius: 14px; display: grid; place-items: center; font: 700 19px var(--ui); color: #fff; font-style: normal; box-shadow: 0 3px 8px rgba(0,0,0,.25); }
 
-    .name {
-      font-size: 34px;
-      line-height: 1.1;
-      font-weight: 700;
-      margin: 0 0 8px;
-    }
+/* Messages */
+.msgs { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.thread { flex: 1; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+.thread .day { align-self: center; font-size: 11px; color: var(--faint); margin: 4px 0; }
+.bub { max-width: 80%; padding: 7px 12px; border-radius: 17px; font-size: 14px; line-height: 1.4; }
+.bub.me { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+.bub.al { align-self: flex-start; background: var(--field); border-bottom-left-radius: 4px; }
+.bub a { color: inherit; }
+.chips { flex: none; display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 12px; border-top: 1px solid var(--rule); background: var(--side); }
+.chips button { font-size: 12px; border: 1px solid var(--rule); background: var(--field); border-radius: 999px; padding: 4px 11px; cursor: pointer; }
+.chips button:hover { background: var(--sel); }
+.chips button:disabled { opacity: .4; cursor: default; }
 
-    .tagline {
-      color: var(--muted);
-      font-size: 18px;
-      margin: 0 0 12px;
-    }
+/* Photos */
+.ph { padding: 12px; }
+.ph h2 { font-size: 1.2rem; margin: 4px 6px 2px; }
+.ph .sub { font-size: 12px; color: var(--muted); margin: 0 6px 12px; }
+.pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; }
+.pgrid button { border: none; padding: 0; aspect-ratio: 1; max-width: 100%; border-radius: 6px; overflow: hidden; cursor: pointer; background: var(--field); position: relative; }
+.pgrid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pgrid .ph-empty { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 4px; font-size: 11.5px; color: #fff; padding: 10px; text-align: center; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+.pgrid .ph-empty code { font: 10px var(--mono); opacity: .85; word-break: break-all; }
+.lb { position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.9); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+.lb[hidden] { display: none !important; }
+.lb img { max-width: 100%; max-height: 78vh; border-radius: 6px; }
+.lb figure { margin: 0; text-align: center; max-width: 100%; }
+.lb figcaption { color: #eee; margin-top: 10px; font-size: 13px; }
+.lb .x, .lb .pv, .lb .nx { position: absolute; background: rgba(255,255,255,.14); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 20px; }
+.lb .x { top: calc(14px + env(safe-area-inset-top, 0px)); right: calc(16px + env(safe-area-inset-right, 0px)); }
+.lb .pv { left: calc(12px + env(safe-area-inset-left, 0px)); top: 50%; transform: translateY(-50%); }
+.lb .nx { right: calc(12px + env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%); }
 
-    .links {
-      font-size: 15px;
-      margin-bottom: 18px;
-    }
+/* Dock */
+#dock {
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+  display: flex; gap: 6px; align-items: flex-end; padding: 7px 9px; border-radius: 20px;
+  background: var(--dock); backdrop-filter: blur(30px) saturate(1.5); -webkit-backdrop-filter: blur(30px) saturate(1.5);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 18px 40px rgba(0,0,0,.4);
+  max-width: calc(100vw - 24px);
+}
+.dk { position: relative; width: 52px; height: 52px; border: none; background: none; padding: 0; cursor: pointer; border-radius: 13px; transition: transform .18s ease; flex: none; }
+.dk svg { width: 52px; height: 52px; border-radius: 13px; display: block; box-shadow: 0 4px 10px rgba(0,0,0,.35); }
+.dk:hover { transform: translateY(-8px) scale(1.12); }
+.dk::after { content: ""; position: absolute; left: 50%; bottom: -5px; width: 4px; height: 4px; border-radius: 50%; background: var(--fg); transform: translateX(-50%); opacity: 0; }
+.dk.open::after { opacity: .9; }
+.dk .tip { position: absolute; bottom: 64px; left: 50%; transform: translateX(-50%); background: var(--win-solid); color: var(--fg); font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 7px; white-space: nowrap; opacity: 0; pointer-events: none; box-shadow: 0 4px 14px rgba(0,0,0,.35), 0 0 0 1px var(--rule); transition: opacity .15s; }
+.dk:hover .tip { opacity: 1; }
+.dk.sep { width: 1px; height: 44px; background: var(--rule); border-radius: 0; margin: 0 4px 4px; cursor: default; }
+.dk.sep:hover { transform: none; }
+@media (max-width: 720px) {
+  #dock { gap: 2px; padding: 6px; border-radius: 16px; overflow-x: auto; }
+  .dk { width: 46px; height: 46px; } .dk svg { width: 46px; height: 46px; }
+  .dk:hover { transform: none; } .dk .tip { display: none; }
+}
 
-    .links span {
-      color: #aaaaaa;
-      margin: 0 6px;
-    }
+/* Mobile: windows fill the space between bar and dock; two-pane apps go list → detail */
+@media (max-width: 720px) {
+  .win, .win.max { top: calc(28px + env(safe-area-inset-top, 0px) + 8px) !important; left: 8px !important; width: calc(100vw - 16px) !important; height: calc(100vh - 28px - env(safe-area-inset-top, 0px) - 100px - env(safe-area-inset-bottom, 0px)) !important; border-radius: 12px; }
+  .win.split .side { width: 100%; border-right: none; }
+  .win.split .main { display: none; }
+  .win.split.detail .side { display: none; }
+  .win.split.detail .main { display: block; }
+  .win.split.detail .back { display: inline-block; }
+  .panel { padding: .6rem 1.1rem 2rem; }
+  .tbl td:nth-child(3), .tbl th:nth-child(3) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .dk, .dk .tip, .switch input, .switch input::after { transition: none; } }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.toast { position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--win-solid); color: var(--fg); padding: 8px 14px; border-radius: 10px; font-size: 13px; box-shadow: var(--shadow); z-index: 70; }
+</style>
 
-    p {
-      margin: 0 0 15px;
-    }
-
-    h2 {
-      font-size: 18px;
-      margin: 38px 0 16px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .news-list {
-      padding-left: 20px;
-      margin: 0;
-    }
-
-    .news-list li {
-      margin-bottom: 8px;
-    }
-
-    .paper {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 18px;
-      padding: 14px 0;
-      border-bottom: 1px solid #eeeeee;
-    }
-
-    .paper:last-child {
-      border-bottom: none;
-    }
-
-    .thumb {
-      width: 110px;
-      height: 78px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: linear-gradient(135deg, #f7f7f7, #e9e9e9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #777777;
-      font-size: 12px;
-      text-align: center;
-      padding: 8px;
-    }
-
-    .paper-title {
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .paper-authors,
-    .paper-venue {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 3px;
-    }
-
-    .paper-links {
-      font-size: 14px;
-      margin-top: 6px;
-    }
-
-    .paper-links a {
-      margin-right: 10px;
-    }
-
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .project {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      background: #fcfcfc;
-    }
-
-    .project-title {
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .project p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    .footer {
-      margin-top: 50px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    @media (max-width: 640px) {
-      nav {
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 34px;
-      }
-
-      .intro {
-        grid-template-columns: 1fr;
-      }
-
-      .portrait {
-        width: 130px;
-        height: 130px;
-      }
-
-      .name {
-        font-size: 30px;
-      }
-
-      .paper {
-        grid-template-columns: 1fr;
-      }
-
-      .thumb {
-        width: 100%;
-        height: 110px;
-      }
-
-      .project-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 </head>
-
 <body>
-  <div class="page">
-    <nav>
-      <a href="#home">Main</a>
-      <a href="#research">Research</a>
-      <a href="#publications">Publications</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+<canvas id="wall" aria-hidden="true"></canvas>
+
+<div id="bar" role="banner">
+  <span class="logo" aria-hidden="true"></span>
+  <span class="appname" id="appname">Finder</span>
+  <span class="menus" aria-hidden="true"><span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span></span>
+  <span class="right">
+    <button type="button" id="themeBtn" aria-label="Toggle light or dark appearance" title="Toggle appearance">
+      <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8.8a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0M12 19.5h.01"/></svg>
+    <svg viewBox="0 0 28 14" aria-hidden="true" style="width:24px"><rect x="1" y="1.5" width="22" height="11" rx="3"/><rect x="3" y="3.5" width="17" height="7" rx="1.5" fill="currentColor" stroke="none"/><path d="M25 5v4"/></svg>
+    <span id="clock">—</span>
+  </span>
+</div>
+
+<div id="desk">
+  <a class="dfile" href="https://arxiv.org/abs/2605.31596" rel="noopener"><span class="ic"><i></i><i></i><i></i><span>PDF</span></span><b>KLIP_CVPR26.pdf</b></a>
+  <a class="dfile" href="assets/cv.pdf" target="_blank" rel="noopener"><span class="ic"><i></i><i></i><i></i><span>PDF</span></span><b>cv.pdf</b></a>
+  <button class="dfile" type="button" data-open="terminal" data-cmd="cv"><span class="ic"><i></i><i></i><i></i><span>TXT</span></span><b>cv.txt</b></button>
+</div>
+
+<!-- ===== Finder ===== -->
+<section class="win split" id="w-finder" data-app="finder" data-title="Finder" hidden aria-label="Finder">
+  <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div><span id="findertitle">Desktop</span></div>
+  <div class="body">
+    <nav class="side" aria-label="Folders">
+      <div class="grp">Favorites</div>
+      <button type="button" class="item on" data-folder="desktop"><b>Desktop</b></button>
+      <button type="button" class="item" data-folder="documents"><b>Documents</b></button>
+      <button type="button" class="item" data-folder="papers"><b>Papers</b></button>
+      <button type="button" class="item" data-folder="photos"><b>Photos</b></button>
+      <button type="button" class="item" data-folder="apps"><b>Applications</b></button>
+      <div class="grp">Locations</div>
+      <button type="button" class="item" data-folder="gatech"><b>gatech.edu</b></button>
     </nav>
-
-    <main id="home">
-      <section class="intro">
-        <!-- Replace profile.jpg with your own image file. -->
-        <img class="portrait" src="images/IMG_9948.png" alt="Alireza Kheirandish" />
-
-        <div>
-          <h1 class="name">Alireza Kheirandish</h1>
-          <p class="tagline">PhD Student. Georgia Tech ECE.</p>
-
-          <div class="links">
-            <a href="akheirandish3@gatech.edu">email</a>
-            <span>/</span>
-            <a href="https://github.com/KheirAli/">github</a>
-            <span>/</span>
-            <a href="https://scholar.google.com/citations?user=-9IKjn8AAAAJ&hl=en">google scholar</a>
-            <span>/</span>
-            <a href="#">cv</a>
-          </div>
-
-          <p>
-            I am a PhD student in Electrical and Computer Engineering at Georgia Tech. My research focuses on generative models for inverse problems.
-          </p>
-
-          <p>
-            Recently, I have been working on localized out-of-distribution detection using diffusion priors, with applications in computational imaging, medical imaging, and visual anomaly detection. I also work on symbolic reinforcement learning and LLM-guided task decomposition for embodied decision-making. 
-          </p>
-        </div>
-      </section>
-
-      <section>
-        <h2>News</h2>
-        <ul class="news-list">
-          <li><strong>2026.</strong> Our paper <em>KLIP</em> was accepted to CVPR 2026.</li>
-          <li><strong>2026.</strong> Our paper <em>GT-NLP</em> was accepted to workshop on SemEval.</li>
-          <li><strong>2025.</strong> Our paper on LLM-augmented symbolic reinforcement learning appeared at ICASSP 2025.</li>
-        </ul>
-      </section>
-
-      <section id="research">
-        <h2>Research</h2>
-        <p>
-          My work studies how generative priors can help solve inverse problems when the observation may contain unusual or out-of-distribution structure. I am especially interested in methods that do not only reconstruct an image, but also explain where and why the reconstruction may be unreliable.
-        </p>
-        <p>
-          More broadly, I am interested in diffusion models, large language models, reinforcement learning, and statistics.
-        </p>
-      </section>
-
-      <section id="publications">
-        <h2>Selected Publications</h2>
-
-        <article class="paper">
-          <div class="thumb">KLIP<br />CVPR 2026</div>
-          <div>
-            <div class="paper-title">
-              KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems
-            </div>
-            <div class="paper-authors">
-              Alireza Kheirandish, Jihoon Hong, Sara Fridovich-Keil.
-            </div>
-            <div class="paper-venue">
-              CVPR 2026
-            </div>
-            <div class="paper-links">
-              <a href="https://arxiv.org/abs/2605.31596">paper</a>
-              <a href="https://github.com/voilalab/KLIP">code</a>
-              <!-- <a href="#">poster</a> -->
-              <a href="https://youtu.be/2ROqNZJZclk">slides</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="paper">
-          <div class="thumb">Symbolic RL<br />ICASSP 2025</div>
-          <div>
-            <div class="paper-title">
-              LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition
-            </div>
-            <div class="paper-authors">
-              Alireza Kheirandish, Duo Xu, Faramarz Fekri
-            </div>
-            <div class="paper-venue">
-              IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), 2025
-            </div>
-            <div class="paper-links">
-              <a href="https://arxiv.org/abs/2410.01929">arxiv</a>
-              <a href="https://doi.org/10.1109/ICASSP49660.2025.10889431">doi</a>
-            </div>
-          </div>
-        </article>
-
-        
-
-        <article class="paper">
-          <div class="thumb">SemEval<br />2025</div>
-          <div>
-            <div class="paper-title">
-              GT-NLP at SemEval-2025 Task 11: EmoRationale, Evidence-Based Emotion Detection via Retrieval-Augmented Generation
-            </div>
-            <div class="paper-authors">
-              Daniel Saeedi, Alireza Kheirandish, Sirwe Saeedi, Hossein Sahour, Aliakbar Panahi, Iman Ahmadi Naeeni
-            </div>
-            <div class="paper-venue">
-              Proceedings of the 19th International Workshop on Semantic Evaluation (SemEval-2025), ACL, 2025
-            </div>
-            <div class="paper-links">
-              <a href="https://aclanthology.org/2025.semeval-1.90/">acl</a>
-              <a href="https://aclanthology.org/2025.semeval-1.90.pdf">pdf</a>
-              <a href="https://github.com/daniel-saeedi/SemEvalTask11_EmoRationale">code</a>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <section id="projects">
-        <h2>Projects</h2>
-
-        <div class="project-grid">
-          <div class="project">
-            <div class="project-title">KLIP</div>
-            <p>
-              Localized out-of-distribution detection for inverse problems using diffusion posterior sampling and KL-based trajectory analysis.
-            </p>
-            <a href="https://github.com/voilalab/KLIP">project page</a>
-          </div>
-
-          <div class="project">
-            <div class="project-title">LLM-Augmented Symbolic RL</div>
-            <p>
-              Landmark-based task decomposition that uses large language models to guide symbolic reinforcement learning in long-horizon environments.
-            </p>
-            <a href="https://github.com/KheirAli/LLM_Landmark">project page</a>
-          </div>
-
-          <div class="project">
-            <div class="project-title">Wearable Glasses for EEG, EOG sensingt</div>
-            <p>
-              Designing a wearable system integrated into a pair of eyeglasses to mitigate the risks associated with drowsy and distracted driving through early detection.
-            </p>
-            <a href="https://github.com/KheirAli/Wearable-Glasses-for-EEG-EOG-sensing">project page</a>
-          </div>
-
-          <div class="project">
-            <div class="project-title">EmoRationale</div>
-            <p>
-              Retrieval-augmented emotion detection for SemEval-2025 Task 11, using retrieved multilingual examples and LLM reasoning for interpretable emotion classification.
-            </p>
-            <a href="https://github.com/daniel-saeedi/SemEvalTask11_EmoRationale">project page</a>
-          </div>
-
-          <div class="project">
-            <div class="project-title">Multi Modal Protein Mutation Effect</div>
-            <p>
-              This project was developed for the Generative and Geometric Deep Learning course.
-            </p>
-            <a href="https://github.com/KheirAli/Multi-Modal-Protein-Mutation-Effect">notes</a>
-          </div>
-
-          <!-- <div class="project">
-            <div class="project-title">Computational Imaging</div>
-            <p>
-              Work on inverse problems, optimization, posterior sampling, and uncertainty-aware reconstruction for imaging systems.
-            </p>
-            <a href="#">materials</a>
-          </div>
-
-          <div class="project">
-            <div class="project-title">Robust ML for Partially Observed Data</div>
-            <p>
-              Methods that detect when measurements contain unusual structure and explain which regions of the recovered signal are unreliable.
-            </p>
-            <a href="#">research</a>
-          </div> -->
-        </div>
-      </section>
-
-      <section id="contact">
-        <h2>Contact</h2>
-        <p>
-          The best way to reach me is by email at <a href="mailto:akheirandish3@gatech.edu">akheirandish3@gatech.edu</a>.
-        </p>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <p>© 2026 Alireza Kheirandish. Built with GitHub Pages.</p>
-    </footer>
+    <div class="main">
+      <button type="button" class="back" data-back>‹ Folders</button>
+      <div class="fpath" id="fpath">al › Desktop</div>
+      <div class="fgrid" id="fgrid"></div>
+    </div>
   </div>
+</section>
+
+<!-- ===== Safari ===== -->
+<section class="win" id="w-safari" data-app="safari" data-title="Safari" hidden aria-label="Safari">
+  <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>Start Page</div>
+  <div class="body">
+    <div class="main saf">
+      <div class="url">Search or enter website name</div>
+      <h2>Favorites</h2>
+      <div class="fav">
+        <a href="https://www.ece.gatech.edu/" rel="noopener"><i style="background:#b3a369">GT</i>Georgia Tech ECE</a>
+        <a href="https://sarafridov.github.io/" rel="noopener"><i style="background:#2f6fe4">VL</i>VOILA Lab</a>
+        <a href="https://arxiv.org/abs/2605.31596" rel="noopener"><i style="background:#b31b1b">ar</i>KLIP on arXiv</a>
+        <a href="https://cvpr.thecvf.com/virtual/2026/poster/37660" rel="noopener"><i style="background:#1a1a2e">CV</i>CVPR 2026</a>
+        <a href="https://scholar.google.com/" rel="noopener"><i style="background:#4285f4">GS</i>Google Scholar</a>
+        <a href="https://github.com/" rel="noopener"><i style="background:#24292f">GH</i>GitHub</a>
+        <a href="https://www.linkedin.com/" rel="noopener"><i style="background:#0a66c2">in</i>LinkedIn</a>
+        <a href="https://www.sharif.edu/" rel="noopener"><i style="background:#0f4c81">SU</i>Sharif University</a>
+      </div>
+      <h2>Reading list</h2>
+      <div class="fav">
+        <a href="https://arxiv.org/abs/2610.31538" rel="noopener"><i style="background:#b31b1b">ar</i>LACToS</a>
+        <a href="https://openaccess.thecvf.com/content/CVPR2026/supplemental/Kheirandish_KLIP_Localized_Distribution_CVPR_2026_supplemental.pdf" rel="noopener"><i style="background:#555">S</i>KLIP supplement</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Messages ===== -->
+<section class="win" id="w-messages" data-app="messages" data-title="Messages" hidden aria-label="Messages">
+  <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>Al</div>
+  <div class="body">
+    <div class="msgs">
+      <div class="thread" id="thread">
+        <div class="day">Today</div>
+        <div class="bub al">Hey! Pick a question below and I'll answer. For anything else, email me.</div>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Photos ===== -->
+<section class="win" id="w-photos" data-app="photos" data-title="Photos" hidden aria-label="Photos">
+  <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>Photos</div>
+  <div class="body">
+    <div class="main ph">
+      <h2>Library</h2>
+      <p class="sub" id="phsub"></p>
+      <div class="pgrid" id="pgrid"></div>
+    </div>
+  </div>
+</section>
+<div class="lb" id="lb" hidden role="dialog" aria-label="Photo viewer">
+  <button type="button" class="x" id="lbx" aria-label="Close">×</button>
+  <button type="button" class="pv" id="lbp" aria-label="Previous">‹</button>
+  <figure><img id="lbimg" alt=""><figcaption id="lbcap"></figcaption></figure>
+  <button type="button" class="nx" id="lbn" aria-label="Next">›</button>
+</div>
+
+<!-- ===== Notes ===== -->
+<section class="win split" id="w-notes" data-app="notes" data-title="Notes" hidden aria-label="Notes">
+  <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>Notes</div>
+  <div class="body">
+    <nav class="side" aria-label="Notes list">
+      <div class="search">⌕ Search</div>
+      <div class="grp">Pinned</div>
+      <button type="button" class="item on" data-note="hi"><b>Hi, I'm Al.</b><small><time>just now</time>Welcome to my corner of the internet.</small></button>
+      <div class="grp">Research</div>
+      <button type="button" class="item" data-note="klip"><b>KLIP</b><small><time>6/1/26</time>Where do the measurements disagree with the prior?</small></button>
+      <button type="button" class="item" data-note="sord"><b>SORD</b><small><time>2026</time>Removing structured corruption without paired data</small></button>
+      <button type="button" class="item" data-note="lactos"><b>LACToS</b><small><time>10/26</time>Typicality, one superpixel at a time</small></button>
+      <button type="button" class="item" data-note="earlier"><b>Earlier work</b><small><time>2023–25</time>Symbolic RL, emotion detection, graph signals</small></button>
+      <div class="grp">Personal</div>
+      <button type="button" class="item" data-note="now"><b>Now</b><small><time>10/25/26</time>What I'm up to this semester</small></button>
+      <button type="button" class="item" data-note="teaching"><b>On teaching</b><small><time>9/26</time>Six TA-ships and what they taught me</small></button>
+    </nav>
+    <div class="main">
+      <button type="button" class="back" data-back>‹ Notes</button>
+      <article class="panel" id="note-hi">
+        <div class="stamp">just now</div>
+        <h1>Hi, I'm Al.</h1>
+        <p>Welcome to my personal website. This is where I keep notes on my research, a list of my papers, and a few things I find interesting.</p>
+        <p>I'm a Ph.D. student in Electrical and Computer Engineering at <a href="https://www.ece.gatech.edu/" rel="noopener">Georgia Tech</a>, advised by <a href="https://sarafridov.github.io/" rel="noopener">Sara Fridovich-Keil</a> in the VOILA Lab. I work on diffusion models for inverse problems. The question I keep coming back to is what happens when the prior and the data disagree: how to detect that disagreement from partial measurements, localize it in space, and restore the signal anyway.</p>
+        <p>My first paper on this, <a href="https://arxiv.org/abs/2605.31596" rel="noopener">KLIP</a>, appeared at CVPR 2026 and was also my M.S. thesis. Since then I've been working on removing structured corruption with diffusion models (SORD) and on superpixel-level anomaly detection (LACToS) with Jihoon Hong and Rohan Sanda.</p>
+        <p>Before inverse problems I spent time on LLM-augmented symbolic reinforcement learning at the SENTINEL Lab, co-developed EmoRationale for SemEval 2025 with the GT-NLP group, and did my undergraduate research on graph-signal denoising at Sharif University of Technology, where I finished my B.S. in Electrical Engineering ranked 6th of 176.</p>
+        <p>I grew up in Iran and moved to Atlanta for graduate school. I've TA'd six courses, from circuit analysis to computational imaging, and I'm on the boards of the Iranian Student Association at Georgia Tech and the Sharif alumni chapter in Atlanta.</p>
+        <p>If you want to talk about diffusion priors, OOD detection, or anything in computational imaging, my inbox is open: <code style="user-select:all">akheirandish3@gatech.edu</code>.</p>
+        <p class="tags"><span>GitHub</span><span>Google Scholar</span><span>LinkedIn</span><span>Email</span></p>
+      </article>
+      <article class="panel" id="note-klip" hidden>
+        <div class="stamp">June 1, 2026</div>
+        <h1>KLIP: localizing distribution shift from measurements</h1>
+        <p>Diffusion models are strong priors for inverse problems, but a strong prior is also a confident one. When the object being imaged contains something the prior has never seen, a diffusion sampler will happily hallucinate something plausible in its place.</p>
+        <p>KLIP turns that failure into a signal. We compute a spatial KL divergence between the clean diffusion prior and the measurement-conditioned posterior. Where the measurements agree with the prior, the two distributions coincide and the divergence is near zero. Where they contradict each other, the divergence is large. The result is a per-pixel map of distribution shift that needs no calibration set, no labeled anomalies, and no model of the corruption.</p>
+        <h3>What I like about it</h3>
+        <ul>
+          <li>It is a byproduct of reconstruction, not a separate detector.</li>
+          <li>It works from partial measurements (deblurring, inpainting, super-resolution), not just clean images.</li>
+          <li>The same metric transfers across faces, medical scans, and X-ray security images.</li>
+        </ul>
+        <p><a href="https://arxiv.org/abs/2605.31596" rel="noopener">arXiv</a> · <a href="https://openaccess.thecvf.com/content/CVPR2026/html/Kheirandish_KLIP_Localized_Distribution_Shift_Detection_via_KL-Divergence_with_Diffusion_Priors_CVPR_2026_paper.html" rel="noopener">CVPR 2026 open access</a>. With Jihoon Hong and Sara Fridovich-Keil.</p>
+      </article>
+      <article class="panel" id="note-sord" hidden>
+        <div class="stamp">2026</div>
+        <h1>SORD: support-guided OOD removal with diffusion</h1>
+        <p>Structured corruption, such as a watermark, an occluding object, or a burst of interference in audio, is hard to remove because you usually need either paired data or a model of the corruption. SORD uses neither.</p>
+        <p>The observation is that the support of the clean signal is informative even when the corruption is not. We use the available measurements to guide diffusion restoration past the corrupted region, letting the prior fill in what the measurements can't say, and nothing more. It works on images and on audio.</p>
+        <p>Preprint in preparation; link to follow.</p>
+      </article>
+      <article class="panel" id="note-lactos" hidden>
+        <div class="stamp">October 2026</div>
+        <h1>LACToS: conditional typicality of superpixels</h1>
+        <p>Pixel-level anomaly scores are noisy and image-level scores are blunt. LACToS sits in between: it scores superpixels by their conditional typicality under a diffusion prior, using an efficient statistical proxy so the whole thing runs at practical speed.</p>
+        <p>We evaluate robustness across medical imaging, faces, and X-ray security screening. Led by Jihoon Hong, with Rohan Sanda and Sara Fridovich-Keil. <a href="https://arxiv.org/abs/2610.31538" rel="noopener">arXiv</a>.</p>
+      </article>
+      <article class="panel" id="note-earlier" hidden>
+        <div class="stamp">2023–2025</div>
+        <h1>Earlier work</h1>
+        <h3>LLM-augmented symbolic RL (ICASSP 2025)</h3>
+        <p>At the SENTINEL Lab with Duo Xu and Faramarz Fekri, I built a framework that uses a language model to decompose tasks into landmark-based subtasks and to generate first-order logic rule templates, which are then refined with inductive logic programming. The appeal was getting interpretable policies out of a pipeline that still benefits from a big pretrained model.</p>
+        <h3>EmoRationale (SemEval 2025)</h3>
+        <p>With the GT-NLP group I co-developed a retrieval-augmented approach to multilingual emotion detection that produces evidence for its predictions, without task-specific fine-tuning.</p>
+        <h3>Graph empirical mode decomposition (Sharif, 2022–23)</h3>
+        <p>My undergraduate research in the DSP lab was on denoising graph signals with Graph EMD in the low-SNR regime. It was my first real exposure to the question that still drives my work: how much of a signal can you recover when the measurements are bad?</p>
+      </article>
+      <article class="panel" id="note-now" hidden>
+        <div class="stamp">October 25, 2026</div>
+        <h1>Now</h1>
+        <ul>
+          <li>Second year of the Ph.D. at Georgia Tech.</li>
+          <li>Writing up SORD and pushing LACToS through review.</li>
+          <li>TA for Foundations of Computational Imaging this fall.</li>
+          <li>Running community outreach for the Iranian Student Association.</li>
+        </ul>
+        <p>Edit this note whenever things change. A "Now" page is only useful if it's current.</p>
+      </article>
+      <article class="panel" id="note-teaching" hidden>
+        <div class="stamp">September 2026</div>
+        <h1>On teaching</h1>
+        <p>I've been a teaching assistant for six courses: Foundations of Computational Imaging and Circuit Analysis (ECE 2040) at Georgia Tech, and Probabilistic Graphical Models, Probability and Statistics, Artificial Intelligence and Biological Computation, and EEG Signal Processing at Sharif.</p>
+        <p>The thing that carried over from the probability courses to computational imaging is that students rarely get stuck on the math. They get stuck on what the symbols are standing in for. Most of my office hours are spent drawing pictures of distributions.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Papers (Finder) ===== -->
+<section class="win" id="w-papers" data-app="papers" data-title="Papers" hidden aria-label="Papers">
+  <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>Papers</div>
+  <div class="body">
+    <div class="cols">
+      <div class="tblwrap">
+        <table class="tbl" id="pubtbl">
+          <thead><tr><th>Name</th><th>Venue</th><th>Kind</th><th>Year</th></tr></thead>
+          <tbody>
+            <tr data-i="0" class="on"><td><span class="fi"></span>KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems</td><td>CVPR</td><td>Conference</td><td>2026</td></tr>
+            <tr data-i="1"><td><span class="fi"></span>LACToS: Local Anomaly Detection via Conditional Typicality of Superpixels</td><td>arXiv</td><td>Preprint</td><td>2026</td></tr>
+            <tr data-i="2"><td><span class="fi"></span>SORD: Support-Guided OOD Removal with Diffusion</td><td>—</td><td>In preparation</td><td>2026</td></tr>
+            <tr data-i="3"><td><span class="fi"></span>LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition</td><td>ICASSP</td><td>Conference</td><td>2025</td></tr>
+            <tr data-i="4"><td><span class="fi"></span>GT-NLP at SemEval-2025 Task 11: EmoRationale</td><td>SemEval</td><td>Workshop</td><td>2025</td></tr>
+            <tr data-i="5"><td><span class="fi"></span>KLIP (M.S. thesis)</td><td>Georgia Tech</td><td>Thesis</td><td>2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="preview" id="pubprev"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Terminal ===== -->
+<section class="win" id="w-terminal" data-app="terminal" data-title="Terminal" hidden aria-label="Terminal">
+  <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>al@gatech — zsh</div>
+  <div class="body">
+    <div class="term" id="term">
+      <div class="out" id="termout"></div>
+      <div class="line"><span class="p">al@gatech</span>&nbsp;~ %&nbsp;<input id="termin" type="text" autocomplete="off" spellcheck="false" aria-label="Terminal command"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Reminders ===== -->
+<section class="win" id="w-reminders" data-app="reminders" data-title="Reminders" hidden aria-label="Reminders">
+  <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>Reminders</div>
+  <div class="body">
+    <div class="main rem">
+      <h2>Research <span id="remcount">6</span></h2>
+      <label><input type="checkbox" id="r1"><span>Put SORD on arXiv<small>Before the ICLR deadline</small></span></label>
+      <label><input type="checkbox" id="r2"><span>Reply to Reviewer 2 on LACToS<small>They want the X-ray ablation</small></span></label>
+      <label><input type="checkbox" id="r3"><span>Office hours, Computational Imaging<small>Thursday 3–4 pm</small></span></label>
+      <label><input type="checkbox" id="r4"><span>Re-run KLIP with the new medical set<small>Check the calibration-free claim still holds</small></span></label>
+      <label><input type="checkbox" id="r5"><span>ISA outreach meeting<small>Bring the fall event budget</small></span></label>
+      <label><input type="checkbox" id="r6" checked><span>Camera-ready for KLIP<small>Done</small></span></label>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Mail ===== -->
+<section class="win" id="w-mail" data-app="mail" data-title="Mail" hidden aria-label="Mail">
+  <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>New Message</div>
+  <div class="body">
+    <div class="main mail">
+      <div class="row"><b>To:</b><code id="mailto">akheirandish3@gatech.edu</code><button type="button" class="btn" id="copyMail">Copy</button></div>
+      <div class="row"><b>Subject:</b><span>Hello from your website</span></div>
+      <div class="msg">
+        <p>The fastest way to reach me is email. I read everything, and I'm especially happy to hear from students interested in diffusion models and inverse problems, and from anyone who has a dataset with a distribution shift in it.</p>
+        <p>You can also find me here:</p>
+        <div class="links">
+          <a class="btn" href="https://scholar.google.com/" rel="noopener">Google Scholar</a>
+          <a class="btn" href="https://github.com/" rel="noopener">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/" rel="noopener">LinkedIn</a>
+        </div>
+        <p class="sig">Alireza Kheirandish<br>School of Electrical and Computer Engineering<br>Georgia Institute of Technology, Atlanta, GA</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Diffusion ===== -->
+<section class="win" id="w-diffusion" data-app="diffusion" data-title="Diffusion" hidden aria-label="Diffusion">
+  <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>Diffusion — toy reverse process</div>
+  <div class="body">
+    <div class="diffwrap">
+      <canvas id="diff" aria-label="Animated reverse diffusion: points start as Gaussian noise and anneal onto a two-moons manifold; a cluster drawn from a different distribution never settles and is highlighted."></canvas>
+      <div class="diffbar">
+        <button type="button" class="btn" id="restart">↻ Restart</button>
+        <span id="tstep">t = 1.00</span>
+        <label><input type="checkbox" id="hl" checked> highlight shift</label>
+        <span style="margin-left:auto">900 samples · 70 OOD</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Settings ===== -->
+<section class="win" id="w-settings" data-app="settings" data-title="System Settings" hidden aria-label="System Settings">
+  <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>System Settings</div>
+  <div class="body">
+    <div class="main set">
+      <section>
+        <h2>Appearance</h2>
+        <div class="seg" role="group" aria-label="Appearance">
+          <button type="button" data-theme-choice="system" aria-pressed="true">Auto</button>
+          <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+          <button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+        </div>
+      </section>
+      <section>
+        <h2>Wallpaper</h2>
+        <div class="walls" role="group" aria-label="Wallpaper">
+          <button type="button" data-wall="aurora" aria-pressed="true" aria-label="Aurora" style="background:linear-gradient(135deg,#1e2a78,#7b3fa0,#e0608a)"></button>
+          <button type="button" data-wall="gauss" aria-pressed="false" aria-label="Gaussian noise" style="background:radial-gradient(circle at 40% 40%,#777,#222)"></button>
+          <button type="button" data-wall="graphite" aria-pressed="false" aria-label="Graphite" style="background:linear-gradient(160deg,#3a3d44,#15161a)"></button>
+        </div>
+      </section>
+      <section>
+        <h2>Accessibility</h2>
+        <label class="switch"><input type="checkbox" id="motion"> Reduce motion</label>
+      </section>
+      <section>
+        <h2>About this Mac</h2>
+        <dl class="about">
+          <dt>Name</dt><dd>Alireza Kheirandish</dd>
+          <dt>Chip</dt><dd>Reverse diffusion, 1000 steps</dd>
+          <dt>Memory</dt><dd>GPA 4.0 / 4.0</dd>
+          <dt>Startup disk</dt><dd>Georgia Tech, ECE</dd>
+          <dt>Serial</dt><dd>CVPR-2026-KLIP</dd>
+        </dl>
+      </section>
+    </div>
+  </div>
+</section>
+
+<nav id="dock" aria-label="Dock">
+  <button type="button" class="dk" data-open="finder"><span class="tip">Finder</span>
+    <svg viewBox="0 0 64 64"><defs><linearGradient id="fg1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5fb4ff"/><stop offset="1" stop-color="#1e6fe0"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#fg1)"/><path d="M12 24a3 3 0 0 1 3-3h12l5 5h17a3 3 0 0 1 3 3v17a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3z" fill="#fff" opacity=".95"/><path d="M12 32h40v14a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3z" fill="#dbeeff"/></svg></button>
+  <button type="button" class="dk" data-open="safari"><span class="tip">Safari</span>
+    <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#eef3fa"/><circle cx="32" cy="32" r="22" fill="#2f8be8"/><circle cx="32" cy="32" r="19" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="1 4"/><path d="M44 20L35 35l-15 9 9-15z" fill="#fff"/><path d="M44 20L35 35l-6-6z" fill="#ff3b30"/></svg></button>
+  <button type="button" class="dk" data-open="mail"><span class="tip">Mail</span>
+    <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#2f78d8"/><rect x="11" y="18" width="42" height="28" rx="5" fill="#fff"/><path d="M11 23l21 14 21-14" fill="none" stroke="#2f78d8" stroke-width="3"/></svg></button>
+  <button type="button" class="dk" data-open="messages"><span class="tip">Messages</span>
+    <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#34c759"/><path d="M32 14c-11.6 0-21 7.6-21 17 0 5.3 3 10 7.7 13.1L17 52l9.3-4.6c1.8.4 3.7.6 5.7.6 11.6 0 21-7.6 21-17S43.6 14 32 14z" fill="#fff"/></svg></button>
+  <button type="button" class="dk" data-open="notes"><span class="tip">Notes</span>
+    <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#f6f5f0"/><rect width="64" height="17" rx="14" fill="#f5c541"/><rect y="12" width="64" height="5" fill="#f5c541"/><g stroke="#cfcdc6" stroke-width="2.4" stroke-linecap="round"><path d="M14 30h36M14 39h36M14 48h24"/></g></svg></button>
+  <button type="button" class="dk" data-open="papers"><span class="tip">Papers</span>
+    <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#2f78d8"/><path d="M10 20a3 3 0 0 1 3-3h13l5 5h20a3 3 0 0 1 3 3v22a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#8fc1ff"/><path d="M10 28h44v19a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#bcdcff"/></svg></button>
+  <button type="button" class="dk" data-open="terminal"><span class="tip">Terminal</span>
+    <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#1b1b1f"/><rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="#3a3a40"/><path d="M16 22l12 10-12 10" fill="none" stroke="#9fe88a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M31 44h17" stroke="#e6e6e6" stroke-width="4" stroke-linecap="round"/></svg></button>
+  <button type="button" class="dk" data-open="reminders"><span class="tip">Reminders</span>
+    <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#f6f5f0"/><circle cx="18" cy="22" r="5" fill="#ff7a45"/><circle cx="18" cy="34" r="5" fill="#2f78d8"/><circle cx="18" cy="46" r="5" fill="#34c759"/><g stroke="#cfcdc6" stroke-width="3" stroke-linecap="round"><path d="M28 22h22M28 34h22M28 46h14"/></g></svg></button>
+  <span class="dk sep" aria-hidden="true"></span>
+  <button type="button" class="dk" data-open="photos"><span class="tip">Photos</span>
+    <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#fff"/><rect x="12" y="12" width="19" height="19" rx="4" fill="#ff8a5b"/><rect x="33" y="12" width="19" height="19" rx="4" fill="#ffd166"/><rect x="12" y="33" width="19" height="19" rx="4" fill="#5bc0eb"/><rect x="33" y="33" width="19" height="19" rx="4" fill="#9b5de5"/></svg></button>
+  <button type="button" class="dk" data-open="diffusion"><span class="tip">Diffusion</span>
+    <svg viewBox="0 0 64 64"><defs><linearGradient id="dg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3b2a86"/><stop offset="1" stop-color="#d1468a"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#dg)"/><g fill="#fff" opacity=".9"><circle cx="18" cy="40" r="2.2"/><circle cx="24" cy="31" r="2.2"/><circle cx="31" cy="25" r="2.2"/><circle cx="39" cy="24" r="2.2"/><circle cx="46" cy="29" r="2.2"/><circle cx="21" cy="46" r="1.6"/><circle cx="28" cy="38" r="1.6"/><circle cx="35" cy="32" r="1.6"/><circle cx="42" cy="34" r="1.6"/><circle cx="48" cy="40" r="1.6"/></g><circle cx="46" cy="16" r="4" fill="#ffd479"/></svg></button>
+  <button type="button" class="dk" data-open="settings"><span class="tip">System Settings</span>
+    <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#6e6e73"/><circle cx="32" cy="32" r="15" fill="none" stroke="#e5e5ea" stroke-width="7" stroke-dasharray="6 5.2"/><circle cx="32" cy="32" r="7" fill="#e5e5ea"/></svg></button>
+</nav>
+
+<div id="toast" class="toast" hidden role="status"></div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var isMobile = function () { return window.matchMedia('(max-width: 720px)').matches; };
+  var prefs = {};
+  try { prefs = JSON.parse(localStorage.getItem('aldesk') || '{}'); } catch (e) {}
+  function save() { try { localStorage.setItem('aldesk', JSON.stringify(prefs)); } catch (e) {} }
+  function toast(msg) { var t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(function () { t.hidden = true; }, 1600); }
+  function isDark() {
+    var th = root.getAttribute('data-theme');
+    if (th) return th === 'dark';
+    return !window.matchMedia('(prefers-color-scheme: light)').matches;
+  }
+
+  /* ---------- clock ---------- */
+  function tick() {
+    var d = new Date();
+    var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], mons = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var h = d.getHours(), m = d.getMinutes(), ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+    $('#clock').textContent = days[d.getDay()] + ' ' + mons[d.getMonth()] + ' ' + d.getDate() + '  ' + h + ':' + (m < 10 ? '0' : '') + m + ' ' + ap;
+  }
+  tick(); setInterval(tick, 10000);
+
+  /* ---------- theme ---------- */
+  function applyTheme(choice) {
+    if (choice === 'system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', choice);
+    $$('[data-theme-choice]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.themeChoice === choice)); });
+    prefs.theme = choice; save(); drawWall(); drawDiff(diffT);
+  }
+  $$('[data-theme-choice]').forEach(function (b) { b.addEventListener('click', function () { applyTheme(b.dataset.themeChoice); }); });
+  $('#themeBtn').addEventListener('click', function () { applyTheme(isDark() ? 'light' : 'dark'); });
+  if (prefs.theme) applyTheme(prefs.theme);
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function () { drawWall(); drawDiff(diffT); });
+
+  /* ---------- wallpaper ---------- */
+  var wall = $('#wall'), wctx = wall.getContext('2d'), wallName = prefs.wall || 'aurora';
+  function drawWall() {
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var W = wall.width = Math.floor(innerWidth * dpr), H = wall.height = Math.floor(innerHeight * dpr);
+    var dark = isDark();
+    if (wallName === 'graphite') {
+      var g = wctx.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, dark ? '#3a3d44' : '#dfe3ea'); g.addColorStop(1, dark ? '#101115' : '#9aa3b2');
+      wctx.fillStyle = g; wctx.fillRect(0, 0, W, H);
+    } else if (wallName === 'gauss') {
+      wctx.fillStyle = dark ? '#1c1c1f' : '#d8d8dc'; wctx.fillRect(0, 0, W, H);
+      var img = wctx.createImageData(W, H), d = img.data;
+      for (var i = 0; i < d.length; i += 4) {
+        var u = 1 - Math.random(), v = Math.random(), z = Math.sqrt(-2 * Math.log(u)) * Math.cos(6.283 * v);
+        var val = (dark ? 70 : 190) + z * 22; d[i] = d[i + 1] = d[i + 2] = val; d[i + 3] = 255;
+      }
+      wctx.putImageData(img, 0, 0);
+      var rg = wctx.createRadialGradient(W * .5, H * .45, 0, W * .5, H * .45, Math.max(W, H) * .7);
+      rg.addColorStop(0, 'rgba(0,0,0,0)'); rg.addColorStop(1, dark ? 'rgba(0,0,0,.75)' : 'rgba(255,255,255,.5)');
+      wctx.fillStyle = rg; wctx.fillRect(0, 0, W, H);
+    } else {
+      var base = wctx.createLinearGradient(0, 0, W, H);
+      if (dark) { base.addColorStop(0, '#141a4a'); base.addColorStop(.55, '#4a2a7a'); base.addColorStop(1, '#8a3860'); }
+      else { base.addColorStop(0, '#9fb8ff'); base.addColorStop(.55, '#d9b8f5'); base.addColorStop(1, '#ffc9d6'); }
+      wctx.fillStyle = base; wctx.fillRect(0, 0, W, H);
+      var blobs = [[.2, .25, .5, dark ? 'rgba(80,140,255,.35)' : 'rgba(255,255,255,.45)'], [.75, .7, .6, dark ? 'rgba(240,110,160,.35)' : 'rgba(255,170,120,.35)'], [.6, .2, .4, dark ? 'rgba(150,90,255,.3)' : 'rgba(170,140,255,.35)']];
+      blobs.forEach(function (b) {
+        var r = wctx.createRadialGradient(W * b[0], H * b[1], 0, W * b[0], H * b[1], Math.max(W, H) * b[2]);
+        r.addColorStop(0, b[3]); r.addColorStop(1, 'rgba(0,0,0,0)'); wctx.fillStyle = r; wctx.fillRect(0, 0, W, H);
+      });
+    }
+  }
+  $$('[data-wall]').forEach(function (b) {
+    b.setAttribute('aria-pressed', String(b.dataset.wall === wallName));
+    b.addEventListener('click', function () {
+      wallName = b.dataset.wall; prefs.wall = wallName; save(); drawWall();
+      $$('[data-wall]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    });
+  });
+  drawWall(); window.addEventListener('resize', drawWall);
+
+  /* ---------- windows ---------- */
+  var z = 10, wins = $$('.win'), cascade = 0;
+  function setFocus(w) {
+    wins.forEach(function (x) { x.classList.remove('focused'); });
+    w.classList.add('focused'); w.style.zIndex = ++z;
+    $('#appname').textContent = w.dataset.title;
+  }
+  function openApp(id) {
+    var w = $('#w-' + id); if (!w) return;
+    if (w.hidden) {
+      w.hidden = false;
+      if (!w.dataset.placed && !isMobile()) {
+        var top = 28 + 60 + cascade * 28, left = Math.max(16, (innerWidth - w.offsetWidth) / 2 - 120 + cascade * 36);
+        left = Math.min(left, innerWidth - w.offsetWidth - 16);
+        w.style.top = top + 'px'; w.style.left = left + 'px'; w.dataset.placed = '1'; cascade = (cascade + 1) % 5;
+      }
+      $('[data-open="' + id + '"].dk').classList.add('open');
+      if (id === 'terminal' && !termBooted) bootTerm();
+      if (id === 'diffusion') { sizeDiff(); if (!diffRan) runDiff(); }
+    }
+    setFocus(w);
+    if (id === 'terminal') setTimeout(function () { $('#termin').focus({ preventScroll: true }); }, 50);
+  }
+  function closeApp(w) { w.hidden = true; $('[data-open="' + w.dataset.app + '"].dk').classList.remove('open'); var vis = wins.filter(function (x) { return !x.hidden; }); if (vis.length) setFocus(vis.sort(function (a, b) { return (+b.style.zIndex || 0) - (+a.style.zIndex || 0); })[0]); else $('#appname').textContent = 'Finder'; }
+  $$('[data-open]').forEach(function (b) { b.addEventListener('click', function () { openApp(b.dataset.open); if (b.dataset.cmd) runCmd(b.dataset.cmd); }); });
+  wins.forEach(function (w) {
+    w.addEventListener('pointerdown', function () { if (!w.classList.contains('focused')) setFocus(w); }, true);
+    $$('[data-act]', w).forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (b.dataset.act === 'close') closeApp(w);
+        else if (b.dataset.act === 'min') { w.hidden = true; }
+        else w.classList.toggle('max');
+      });
+    });
+    // drag
+    var tb = $('.titlebar', w), sx, sy, ox, oy, dragging = false;
+    tb.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('button') || isMobile() || w.classList.contains('max')) return;
+      dragging = true; sx = e.clientX; sy = e.clientY; ox = w.offsetLeft; oy = w.offsetTop;
+      w.classList.add('dragging'); tb.setPointerCapture(e.pointerId);
+    });
+    tb.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      var nx = ox + e.clientX - sx, ny = oy + e.clientY - sy;
+      nx = Math.max(-w.offsetWidth + 120, Math.min(nx, innerWidth - 120)); ny = Math.max(28, Math.min(ny, innerHeight - 60));
+      w.style.left = nx + 'px'; w.style.top = ny + 'px';
+    });
+    var stop = function () { dragging = false; w.classList.remove('dragging'); };
+    tb.addEventListener('pointerup', stop); tb.addEventListener('pointercancel', stop);
+    tb.addEventListener('dblclick', function (e) { if (!e.target.closest('button')) w.classList.toggle('max'); });
+    // split-pane back button (mobile)
+    $$('[data-back]', w).forEach(function (b) { b.addEventListener('click', function () { w.classList.remove('detail'); }); });
+  });
+  // notes
+  $$('#w-notes [data-note]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      $$('#w-notes [data-note]').forEach(function (x) { x.classList.toggle('on', x === b); });
+      $$('#w-notes .panel').forEach(function (p) { p.hidden = p.id !== 'note-' + b.dataset.note; });
+      $('#w-notes').classList.add('detail'); $('#w-notes .main').scrollTop = 0;
+    });
+  });
+
+  /* ---------- papers ---------- */
+  var pubs = [
+    { t: 'KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems', a: '<b>Alireza Kheirandish</b>, Jihoon Hong, Sara Fridovich-Keil', v: 'CVPR 2026', s: 'A spatial KL divergence between the clean diffusion prior and the measurement-conditioned posterior gives a calibration-free, per-pixel map of distribution shift.', links: [['Paper', 'https://arxiv.org/abs/2605.31596'], ['CVF', 'https://openaccess.thecvf.com/content/CVPR2026/html/Kheirandish_KLIP_Localized_Distribution_Shift_Detection_via_KL-Divergence_with_Diffusion_Priors_CVPR_2026_paper.html'], ['Code', 'https://github.com/']], bib: '@inproceedings{kheirandish2026klip,\n  title     = {KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems},\n  author    = {Kheirandish, Alireza and Hong, Jihoon and Fridovich-Keil, Sara},\n  booktitle = {CVPR},\n  year      = {2026}\n}' },
+    { t: 'LACToS: Local Anomaly Detection via Conditional Typicality of Superpixels', a: 'Jihoon Hong, <b>Alireza Kheirandish</b>, Rohan Sanda, Sara Fridovich-Keil', v: 'arXiv 2026', s: 'Superpixel-level conditional typicality under a diffusion prior, computed with an efficient statistical proxy; evaluated on medical, face, and X-ray security images.', links: [['Paper', 'https://arxiv.org/abs/2610.31538'], ['Code', 'https://github.com/']], bib: '@article{hong2026lactos,\n  title   = {LACToS: Local Anomaly Detection via Conditional Typicality of Superpixels},\n  author  = {Hong, Jihoon and Kheirandish, Alireza and Sanda, Rohan and Fridovich-Keil, Sara},\n  journal = {arXiv preprint arXiv:2610.31538},\n  year    = {2026}\n}' },
+    { t: 'SORD: Support-Guided OOD Removal with Diffusion', a: '<b>Alireza Kheirandish</b> et al.', v: 'In preparation, 2026', s: 'Measurement-guided diffusion restoration past localized structured corruption in images and audio, without paired data or a corruption model.', links: [], bib: '' },
+    { t: 'LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition', a: '<b>Alireza Kheirandish</b>, Duo Xu, Faramarz Fekri', v: 'IEEE ICASSP 2025', s: 'A language model decomposes tasks into landmark-based subtasks and proposes first-order logic rule templates, refined by inductive logic programming.', links: [['Paper', 'https://ieeexplore.ieee.org/']], bib: '@inproceedings{kheirandish2025llmrl,\n  title     = {LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition},\n  author    = {Kheirandish, Alireza and Xu, Duo and Fekri, Faramarz},\n  booktitle = {ICASSP},\n  year      = {2025}\n}' },
+    { t: 'GT-NLP at SemEval-2025 Task 11: EmoRationale, Evidence-Based Emotion Detection via Retrieval-Augmented Generation', a: 'Daniel Saeedi, <b>Alireza Kheirandish</b>, Sirwe Saeedi, Hossein Sahour, Aliakbar Panahi, Iman Naeeni', v: 'SemEval 2025', s: 'Retrieval-augmented, evidence-based multilingual emotion detection without task-specific fine-tuning.', links: [['Paper', 'https://aclanthology.org/']], bib: '@inproceedings{saeedi2025emorationale,\n  title     = {GT-NLP at SemEval-2025 Task 11: EmoRationale},\n  author    = {Saeedi, Daniel and Kheirandish, Alireza and Saeedi, Sirwe and Sahour, Hossein and Panahi, Aliakbar and Naeeni, Iman},\n  booktitle = {SemEval},\n  year      = {2025}\n}' },
+    { t: 'KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems (M.S. thesis)', a: '<b>Alireza Kheirandish</b>; advisor Sara Fridovich-Keil', v: 'Georgia Institute of Technology, 2026', s: 'Master of Science in Electrical and Computer Engineering.', links: [], bib: '' }
+  ];
+  function showPub(i) {
+    var p = pubs[i], el = $('#pubprev');
+    $$('#pubtbl tbody tr').forEach(function (r) { r.classList.toggle('on', +r.dataset.i === i); });
+    var html = '<h3>' + p.t + '</h3><p class="au">' + p.a + ' · ' + p.v + '</p><p style="margin:0">' + p.s + '</p><div class="acts">';
+    p.links.forEach(function (l, k) { html += '<a class="btn' + (k === 0 ? ' pri' : '') + '" href="' + l[1] + '" rel="noopener">' + l[0] + '</a>'; });
+    if (p.bib) html += '<button type="button" class="btn" data-bibtoggle>BibTeX</button><button type="button" class="btn" data-bibcopy>Copy BibTeX</button>';
+    html += '</div>' + (p.bib ? '<pre class="bib" hidden>' + p.bib + '</pre>' : '');
+    el.innerHTML = html;
+    var pre = $('pre', el);
+    var tg = $('[data-bibtoggle]', el); if (tg) tg.addEventListener('click', function () { pre.hidden = !pre.hidden; });
+    var cp = $('[data-bibcopy]', el); if (cp) cp.addEventListener('click', function () { copyText(p.bib, 'BibTeX copied'); });
+  }
+  function copyText(text, msg) {
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { toast(msg); }, function () { toast('Select and copy manually'); });
+    else toast('Select and copy manually');
+  }
+  $$('#pubtbl tbody tr').forEach(function (r) { r.addEventListener('click', function () { showPub(+r.dataset.i); }); });
+  showPub(0);
+  $('#copyMail').addEventListener('click', function () { copyText($('#mailto').textContent, 'Email address copied'); });
+
+  /* ---------- reminders ---------- */
+  function remCount() { $('#remcount').textContent = $$('.rem input:not(:checked)').length; }
+  $$('.rem input').forEach(function (c) { c.addEventListener('change', remCount); }); remCount();
+
+  /* ---------- terminal ---------- */
+  var out = $('#termout'), tin = $('#termin'), termBooted = false;
+  var files = {
+    'about.txt': 'Alireza (Al) Kheirandish\nPh.D. student, Electrical and Computer Engineering, Georgia Tech\nAdvisor: Sara Fridovich-Keil (VOILA Lab)\nFocus: diffusion models for inverse problems; detecting and removing\n       localized distribution shifts from measurements.',
+    'cv.txt': '',
+    'contact.txt': 'email    akheirandish3@gatech.edu\nscholar  https://scholar.google.com/\ngithub   https://github.com/\nlinkedin https://www.linkedin.com/'
+  };
+  var cv = {
+    education: '<span class="h">EDUCATION</span>\n  2024–      Ph.D., Electrical and Computer Engineering, Georgia Tech      GPA 4.0\n  2026       M.S., Electrical and Computer Engineering, Georgia Tech       GPA 4.0\n             Thesis: KLIP — localized distribution shift detection\n  2018–2023  B.S., Electrical Engineering (Communications), Sharif Univ.   18.99/20\n             Ranked 6 / 176',
+    experience: '<span class="h">RESEARCH EXPERIENCE</span>\n  2024–      VOILA Lab, Georgia Tech — Graduate Research Assistant\n             Diffusion models, inverse problems, localized distribution shift (KLIP, SORD, LACToS)\n  2024       SENTINEL Lab, Georgia Tech — LLM-augmented symbolic RL, landmark-based task decomposition\n  2025       GT-NLP, Georgia Tech — retrieval-augmented multilingual emotion detection (SemEval-2025)\n  2022–2023  DSP Lab, Sharif Univ. — graph-signal denoising with Graph EMD at low SNR',
+    teaching: '<span class="h">TEACHING (TA)</span>\n  Georgia Tech   Foundations of Computational Imaging (F25) · Circuit Analysis, ECE 2040\n  Sharif         Probabilistic Graphical Models · Probability and Statistics\n                 AI and Biological Computation · EEG Signal Processing',
+    pubs: '<span class="h">PUBLICATIONS</span>\n  [1] KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors\n      in Inverse Problems. <b>Kheirandish</b>, Hong, Fridovich-Keil. CVPR 2026.\n      <a href="https://arxiv.org/abs/2605.31596" rel="noopener">arxiv.org/abs/2605.31596</a>\n  [2] LACToS: Local Anomaly Detection via Conditional Typicality of Superpixels.\n      Hong, <b>Kheirandish</b>, Sanda, Fridovich-Keil. arXiv 2026.\n  [3] SORD: Support-Guided OOD Removal with Diffusion. In preparation.\n  [4] LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition.\n      <b>Kheirandish</b>, Xu, Fekri. ICASSP 2025.\n  [5] GT-NLP at SemEval-2025 Task 11: EmoRationale. Saeedi, <b>Kheirandish</b>, et al. SemEval 2025.',
+    honors: '<span class="h">HONORS &amp; SERVICE</span>\n  159 / ~144,000   Iran National University Entrance Exam (Math/Physics), 2018\n  6 / 176          Sharif EE class rank\n  Board member &amp; community outreach chief, Iranian Student Association, Georgia Tech\n  Board member &amp; treasurer, Sharif University Association (SUTA), Atlanta chapter',
+    skills: '<span class="h">SKILLS</span>\n  Python · C/C++ · MATLAB · PyTorch · TensorFlow · Git · Linux · LaTeX\n  Persian (native) · English (professional)'
+  };
+  files['cv.txt'] = [cv.education, cv.experience, cv.teaching, cv.pubs, cv.honors, cv.skills].join('\n\n');
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function print(html) { var d = document.createElement('div'); d.innerHTML = html; out.appendChild(d); $('#term').scrollTop = 1e9; }
+  function echoCmd(c) { print('<span class="p">al@gatech</span> ~ % ' + esc(c)); }
+  function runCmd(raw) {
+    var c = raw.trim(); if (!c) return; echoCmd(c);
+    var parts = c.split(/\s+/), cmd = parts[0].toLowerCase(), arg = parts.slice(1).join(' ');
+    switch (cmd) {
+      case 'help': print('<span class="d">commands:</span> whoami · cv · education · experience · teaching · pubs · honors · skills · contact · ls · cat &lt;file&gt; · open &lt;app&gt; · neofetch · clear'); break;
+      case 'whoami': print('al — Ph.D. student at Georgia Tech, working on diffusion models for inverse problems.'); break;
+      case 'cv': print(files['cv.txt']); break;
+      case 'education': case 'experience': case 'teaching': case 'pubs': case 'publications': case 'honors': case 'skills': print(cv[cmd === 'publications' ? 'pubs' : cmd]); break;
+      case 'contact': print(esc(files['contact.txt'])); break;
+      case 'ls': print('about.txt  cv.txt  contact.txt  <span class="p">papers/</span>  <span class="p">klip/</span>'); break;
+      case 'cat': if (files[arg]) print(arg === 'cv.txt' ? files[arg] : esc(files[arg])); else print('cat: ' + esc(arg || '') + ': No such file or directory'); break;
+      case 'open': var id = arg.toLowerCase().replace('.app', ''); if ($('#w-' + id)) { openApp(id); print('<span class="ok">opened ' + esc(id) + '</span>'); } else print('open: no app named ' + esc(arg)); break;
+      case 'pwd': print('/Users/al'); break;
+      case 'date': print(new Date().toString()); break;
+      case 'neofetch': print('<span class="p">al@gatech</span>\n<span class="d">-----------</span>\n<span class="h">OS</span>       Georgia Tech ECE, Ph.D. track\n<span class="h">Host</span>     VOILA Lab (Fridovich-Keil)\n<span class="h">Kernel</span>   Diffusion priors for inverse problems\n<span class="h">Uptime</span>   since 2024\n<span class="h">Shell</span>    PyTorch, Python, MATLAB\n<span class="h">Theme</span>    KLIP · SORD · LACToS\n<span class="h">GPA</span>      4.0 / 4.0'); break;
+      case 'clear': out.innerHTML = ''; break;
+      case 'sudo': print('al is not in the sudoers file. This incident will be reported to Reviewer 2.'); break;
+      case 'exit': closeApp($('#w-terminal')); break;
+      default: print('zsh: command not found: ' + esc(cmd) + '  <span class="d">(try <b>help</b>)</span>');
+    }
+  }
+  function bootTerm() {
+    termBooted = true;
+    print('<span class="d">Last login: ' + new Date().toDateString() + ' on ttys001</span>');
+    runCmd('cat about.txt');
+    print('<span class="d">type <b>help</b> for commands, <b>cv</b> for the full CV</span>');
+  }
+  tin.addEventListener('keydown', function (e) { if (e.key === 'Enter') { runCmd(tin.value); tin.value = ''; } });
+  $('#term').addEventListener('click', function () { tin.focus({ preventScroll: true }); });
+
+  /* ---------- diffusion toy ---------- */
+  var cv2 = $('#diff'), ctx = cv2.getContext('2d'), N = 900, target = [], noise = [], ood = [], diffT = 1, diffRan = false, start = null, dur = 7000, raf = null;
+  function gauss() { var u = 1 - Math.random(), v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.283 * v); }
+  function build() {
+    var W = cv2.width, H = cv2.height; target = []; noise = []; ood = [];
+    for (var i = 0; i < N; i++) {
+      var isO = i < 70, tx, ty;
+      if (isO) { tx = W * .82 + gauss() * W * .02; ty = H * .28 + gauss() * H * .05; }
+      else { var a = Math.random() * Math.PI, top = Math.random() < .5, r = H * .3 + gauss() * H * .018; var cx = W * .42, dx = H * .24;
+        tx = top ? cx + r * Math.cos(a) : cx + dx + r * Math.cos(a + Math.PI); ty = top ? H * .58 - r * Math.sin(a) * .9 : H * .42 + r * Math.sin(a) * .9; }
+      target.push([tx, ty]); ood.push(isO); noise.push([W * .5 + gauss() * W * .18, H * .5 + gauss() * H * .3]);
+    }
+  }
+  function sizeDiff() { var r = cv2.getBoundingClientRect(); if (r.width < 10) return; cv2.width = Math.floor(r.width * 2); cv2.height = Math.floor(r.height * 2); build(); drawDiff(diffT); }
+  function drawDiff(tt) {
+    if (!target.length) return;
+    var W = cv2.width, H = cv2.height; ctx.clearRect(0, 0, W, H);
+    var hl = $('#hl').checked, alpha = Math.pow(tt, 1.6);
+    for (var i = 0; i < N; i++) {
+      var k = ood[i] ? Math.max(alpha, .55) : alpha, x = target[i][0] * (1 - k) + noise[i][0] * k, y = target[i][1] * (1 - k) + noise[i][1] * k;
+      var mark = hl && ood[i] && tt < .25;
+      ctx.beginPath(); ctx.arc(x, y, mark ? 4.4 : 3, 0, 6.283);
+      ctx.fillStyle = mark ? '#ff7a9c' : '#d6f5c9'; ctx.globalAlpha = mark ? .95 : .6; ctx.fill();
+    }
+    ctx.globalAlpha = 1; $('#tstep').textContent = 't = ' + tt.toFixed(2);
+  }
+  function frame(ts) { if (start === null) start = ts; var p = Math.min(1, (ts - start) / dur); diffT = 1 - p; drawDiff(diffT); if (p < 1) raf = requestAnimationFrame(frame); }
+  function runDiff() { diffRan = true; if (raf) cancelAnimationFrame(raf); start = null; if (reduceMotion()) { diffT = 0; drawDiff(0); } else raf = requestAnimationFrame(frame); }
+  function reduceMotion() { return $('#motion').checked || window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  $('#restart').addEventListener('click', runDiff);
+  $('#hl').addEventListener('change', function () { drawDiff(diffT); });
+  $('#motion').checked = !!prefs.motion;
+  $('#motion').addEventListener('change', function () { prefs.motion = $('#motion').checked; save(); });
+  window.addEventListener('resize', function () { if (!$('#w-diffusion').hidden) sizeDiff(); });
+  new ResizeObserver(function () { if (!$('#w-diffusion').hidden) sizeDiff(); }).observe($('#w-diffusion'));
+
+  /* ---------- finder ---------- */
+  var folders = {
+    desktop: { path: 'al › Desktop', items: [
+      { k: 'doc', n: 'KLIP_CVPR26.pdf', href: 'https://arxiv.org/abs/2605.31596', tag: 'PDF' },
+      { k: 'doc', n: 'cv.pdf', href: 'assets/cv.pdf', tag: 'PDF' },
+      { k: 'doc', n: 'cv.txt', app: 'terminal', cmd: 'cv', tag: 'TXT' } ] },
+    documents: { path: 'al › Documents', items: [
+      { k: 'fo', n: 'Papers', folder: 'papers' }, { k: 'fo', n: 'Photos', folder: 'photos' },
+      { k: 'doc', n: 'cv.pdf', href: 'assets/cv.pdf', tag: 'PDF' },
+      { k: 'doc', n: 'MS_thesis_KLIP.pdf', href: 'https://arxiv.org/abs/2605.31596', tag: 'PDF' },
+      { k: 'doc', n: 'KLIP_supplement.pdf', href: 'https://openaccess.thecvf.com/content/CVPR2026/supplemental/Kheirandish_KLIP_Localized_Distribution_CVPR_2026_supplemental.pdf', tag: 'PDF' } ] },
+    papers: { path: 'al › Documents › Papers', items: [
+      { k: 'doc', n: 'KLIP (CVPR 2026)', href: 'https://arxiv.org/abs/2605.31596', tag: 'PDF' },
+      { k: 'doc', n: 'LACToS (arXiv 2026)', href: 'https://arxiv.org/abs/2610.31538', tag: 'PDF' },
+      { k: 'doc', n: 'SORD (in prep)', app: 'papers', tag: 'TEX' },
+      { k: 'doc', n: 'LLM Symbolic RL (ICASSP 2025)', href: 'https://ieeexplore.ieee.org/', tag: 'PDF' },
+      { k: 'doc', n: 'EmoRationale (SemEval 2025)', href: 'https://aclanthology.org/', tag: 'PDF' },
+      { k: 'app', n: 'Open in Papers.app', app: 'papers' } ] },
+    photos: { path: 'al › Pictures', items: [ { k: 'app', n: 'Open in Photos.app', app: 'photos' } ] },
+    apps: { path: 'al › Applications', items: [] },
+    gatech: { path: 'gatech.edu', items: [
+      { k: 'fo', n: 'School of ECE', href: 'https://www.ece.gatech.edu/' },
+      { k: 'fo', n: 'VOILA Lab', href: 'https://sarafridov.github.io/' } ] }
+  };
+  var dockSvg = {}; $$('#dock .dk[data-open]').forEach(function (b) { dockSvg[b.dataset.open] = $('svg', b).outerHTML; });
+  Object.keys(dockSvg).forEach(function (id) { folders.apps.items.push({ k: 'app', n: $('[data-open="' + id + '"].dk .tip').textContent, app: id }); });
+  function showFolder(id) {
+    var f = folders[id]; if (!f) return;
+    $('#fpath').textContent = f.path; $('#findertitle').textContent = f.path.split(' › ').pop();
+    $$('#w-finder [data-folder]').forEach(function (b) { b.classList.toggle('on', b.dataset.folder === id); });
+    var g = $('#fgrid'); g.innerHTML = '';
+    f.items.forEach(function (it) {
+      var el = document.createElement(it.href ? 'a' : 'button'); el.className = 'ffile';
+      if (it.href) { el.href = it.href; el.target = '_blank'; el.rel = 'noopener'; } else el.type = 'button';
+      var icon = it.k === 'fo' ? '<span class="fo"></span>' : it.k === 'doc' ? '<span class="doc"><i></i><i></i><i></i><span>' + it.tag + '</span></span>' : it.k === 'img' ? '<span class="img"></span>' : '<span class="app">' + (dockSvg[it.app] || '') + '</span>';
+      el.innerHTML = icon + '<span>' + it.n + '</span>';
+      if (it.folder) el.addEventListener('click', function () { showFolder(it.folder); });
+      if (it.app) el.addEventListener('click', function () { openApp(it.app); if (it.cmd) runCmd(it.cmd); });
+      g.appendChild(el);
+    });
+    $('#w-finder').classList.add('detail');
+  }
+  $$('#w-finder [data-folder]').forEach(function (b) { b.addEventListener('click', function () { showFolder(b.dataset.folder); }); });
+  showFolder('desktop'); $('#w-finder').classList.remove('detail');
+
+  /* ---------- messages (FAQ) ---------- */
+  var faq = [
+    ['What do you work on?', 'Diffusion models for inverse problems. Specifically: detecting when the measurements disagree with the prior, localizing that disagreement in space, and restoring the signal anyway. KLIP, SORD, and LACToS are the three papers so far.'],
+    ['KLIP in one sentence?', 'A spatial KL divergence between the clean diffusion prior and the measurement-conditioned posterior gives you a per-pixel map of distribution shift, with no calibration set and no corruption model. <a href="https://arxiv.org/abs/2605.31596" rel="noopener">arXiv</a>.'],
+    ['Who is your advisor?', 'Sara Fridovich-Keil, in the VOILA Lab at Georgia Tech ECE.'],
+    ['Where did you study?', 'B.S. in Electrical Engineering at Sharif University of Technology (ranked 6 of 176), then M.S. (2026) and now Ph.D. at Georgia Tech.'],
+    ['Open to collaborations?', 'Yes. If you have a dataset with a distribution shift in it, or an inverse problem where the prior is suspect, email me at akheirandish3@gatech.edu.'],
+    ['Where are you from?', 'I grew up in Iran and moved to Atlanta for graduate school.'],
+    ['What do you teach?', 'This fall I TA Foundations of Computational Imaging. Before that: Circuit Analysis at Georgia Tech, and PGMs, Probability and Statistics, AI and Biological Computation, and EEG Signal Processing at Sharif.'],
+    ['Tools you use?', 'Python and PyTorch most days, MATLAB and C/C++ when needed, LaTeX for everything written.']
+  ];
+  var chips = $('#chips'), thread = $('#thread');
+  faq.forEach(function (q, i) {
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = q[0];
+    b.addEventListener('click', function () {
+      var me = document.createElement('div'); me.className = 'bub me'; me.textContent = q[0]; thread.appendChild(me);
+      b.disabled = true; thread.scrollTop = 1e9;
+      setTimeout(function () { var al = document.createElement('div'); al.className = 'bub al'; al.innerHTML = q[1]; thread.appendChild(al); thread.scrollTop = 1e9; }, reduceMotion() ? 0 : 450);
+    });
+    chips.appendChild(b);
+  });
+
+  /* ---------- photos ---------- */
+  // Drop your images in assets/photos/ and list them here. Captions are optional.
+  var PHOTOS = [
+    { src: 'assets/photos/01.jpg', cap: 'Atlanta' },
+    { src: 'assets/photos/02.jpg', cap: 'Georgia Tech campus' },
+    { src: 'assets/photos/03.jpg', cap: 'CVPR 2026' },
+    { src: 'assets/photos/04.jpg', cap: 'VOILA Lab' },
+    { src: 'assets/photos/05.jpg', cap: 'Tehran' },
+    { src: 'assets/photos/06.jpg', cap: 'Sharif University' },
+    { src: 'assets/photos/07.jpg', cap: '' },
+    { src: 'assets/photos/08.jpg', cap: '' }
+  ];
+  var pgrid = $('#pgrid'), lbIdx = 0, hues = [340, 205, 25, 265, 150, 45, 300, 190];
+  PHOTOS.forEach(function (p, i) {
+    var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', p.cap || 'Photo ' + (i + 1));
+    var img = document.createElement('img'); img.src = p.src; img.alt = p.cap || ''; img.loading = 'lazy';
+    img.addEventListener('error', function () {
+      img.remove(); p.missing = true;
+      b.style.background = 'linear-gradient(135deg, hsl(' + hues[i % 8] + ' 55% 45%), hsl(' + ((hues[i % 8] + 40) % 360) + ' 60% 30%))';
+      b.innerHTML = '<span class="ph-empty"><span>' + (p.cap || 'Photo ' + (i + 1)) + '</span><code>' + p.src + '</code></span>';
+      b.disabled = true;
+    });
+    b.appendChild(img); b.addEventListener('click', function () { openLb(i); }); pgrid.appendChild(b);
+  });
+  $('#phsub').textContent = PHOTOS.length + ' items · images load from assets/photos/';
+  function openLb(i) { lbIdx = i; var p = PHOTOS[i]; if (p.missing) return; $('#lbimg').src = p.src; $('#lbimg').alt = p.cap || ''; $('#lbcap').textContent = (p.cap || '') + '  ' + (i + 1) + ' / ' + PHOTOS.length; $('#lb').hidden = false; }
+  function stepLb(d) { var n = PHOTOS.length; for (var k = 0; k < n; k++) { lbIdx = (lbIdx + d + n) % n; if (!PHOTOS[lbIdx].missing) { openLb(lbIdx); return; } } }
+  $('#lbx').addEventListener('click', function () { $('#lb').hidden = true; });
+  $('#lbp').addEventListener('click', function () { stepLb(-1); }); $('#lbn').addEventListener('click', function () { stepLb(1); });
+  $('#lb').addEventListener('click', function (e) { if (e.target === $('#lb')) $('#lb').hidden = true; });
+  document.addEventListener('keydown', function (e) { if ($('#lb').hidden) return; if (e.key === 'Escape') $('#lb').hidden = true; if (e.key === 'ArrowLeft') stepLb(-1); if (e.key === 'ArrowRight') stepLb(1); });
+
+  /* ---------- boot ---------- */
+  openApp('notes');
+  if (!isMobile()) { var w = $('#w-notes'); w.style.top = '76px'; w.style.left = Math.max(16, (innerWidth - w.offsetWidth) / 2) + 'px'; }
+})();
+</script>
 </body>
 </html>
