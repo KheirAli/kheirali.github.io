@@ -736,6 +736,8 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
 
 <script>
 (function () {
+  // If anything in this script fails in an older browser, say so on screen instead of silently doing nothing.
+  window.addEventListener('error', function (e) { var t = document.getElementById('toast'); if (t) { t.hidden = false; t.textContent = 'Page script error: ' + (e.message || 'unknown') + (e.lineno ? ' (line ' + e.lineno + ')' : ''); } });
   var root = document.documentElement;
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
@@ -768,7 +770,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   $$('[data-theme-choice]').forEach(function (b) { b.addEventListener('click', function () { applyTheme(b.dataset.themeChoice); }); });
   $('#themeBtn').addEventListener('click', function () { applyTheme(isDark() ? 'light' : 'dark'); });
   if (prefs.theme) applyTheme(prefs.theme);
-  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function () { drawWall(); drawDiff(diffT); });
+  (function () { var mq = window.matchMedia('(prefers-color-scheme: light)'), fn = function () { drawWall(); drawDiff(diffT); }; if (mq.addEventListener) mq.addEventListener('change', fn); else if (mq.addListener) mq.addListener(fn); })();
 
   /* ---------- wallpaper ---------- */
   // Wallpapers are painted into an offscreen "scene" and revealed through a reverse-diffusion animation:
