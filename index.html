@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Alireza Kheirandish — Ph.D. student at Georgia Tech working on diffusion models for inverse problems.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f6f5f0'/%3E%3Crect width='64' height='17' rx='14' fill='%23f5c541'/%3E%3Crect y='12' width='64' height='5' fill='%23f5c541'/%3E%3Cpath d='M14 30h36M14 39h36M14 48h24' stroke='%23cfcdc6' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="assets/profile.jpg">
 <style>html{color-scheme:dark} :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} img{max-width:100%} [hidden]{display:none!important}</style>
-<title>Al's Desktop</title>
+<title>Alireza</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500;700&display=swap">
 <style>
 /* Layout: a full-viewport simulated desktop — fixed menu bar on top, a dock at the bottom,
@@ -110,6 +111,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 .dfile .ic i { position: absolute; left: 8px; right: 8px; height: 2px; background: #c9c9ce; border-radius: 1px; }
 .dfile .ic i:nth-of-type(1) { top: 16px; } .dfile .ic i:nth-of-type(2) { top: 22px; } .dfile .ic i:nth-of-type(3) { top: 28px; right: 18px; }
 .dfile b { font-weight: 500; font-size: 11.5px; line-height: 1.25; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.8); text-align: center; word-break: break-word; }
+body.wall-cat .dfile b { color: #1d1d1f; text-shadow: 0 1px 2px rgba(255,255,255,.9); }
 @media (max-width: 720px) { #desk { display: none; } }
 
 /* Windows */
@@ -149,14 +151,16 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 .panel h3 { font-size: 1rem; margin: 1.2rem 0 .4rem; }
 .panel ul { padding-left: 1.2rem; margin: 0 0 .85rem; }
 .panel .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 1rem; }
-.panel .tags span { font-size: 11.5px; padding: 2px 9px; border-radius: 999px; background: var(--field); color: var(--muted); }
+.panel .tags span, .panel .tags a { font-size: 11.5px; padding: 2px 9px; border-radius: 999px; background: var(--field); color: var(--muted); text-decoration: none; }
+.panel .tags a:hover { color: var(--fg); background: var(--sel); }
 
 /* Finder-style papers */
 .cols { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
 .tbl th { text-align: left; font-weight: 500; color: var(--muted); font-size: 11.5px; padding: 8px 12px; border-bottom: 1px solid var(--rule); position: sticky; top: 0; background: var(--win-solid); }
 .tbl td { padding: 7px 12px; border-bottom: 1px solid var(--rule); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0; }
-.tbl td:first-child { max-width: none; width: 60%; }
+.tbl td:first-child { width: 100%; }
+.tbl td:not(:first-child), .tbl th:not(:first-child) { width: 1%; max-width: none; white-space: nowrap; }
 .tbl tr { cursor: default; }
 .tbl tbody tr:nth-child(even) { background: var(--hover); }
 .tbl tbody tr:hover { background: var(--sel); }
@@ -205,6 +209,9 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
 .diffwrap canvas { flex: 1; min-height: 0; width: 100%; max-width: 100%; display: block; background: var(--term-bg); }
 .diffbar { flex: none; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding: 10px 14px; border-top: 1px solid var(--rule); font: 12px var(--mono); color: var(--muted); background: var(--side); }
 .diffbar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.diffbar .legend { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.diffbar .legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-left: 10px; }
+.diffbar .legend i:first-child { margin-left: 0; }
 
 /* Settings */
 .set { padding: 0; }
@@ -356,7 +363,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   <button type="button" data-do="open:notes">New Note <span class="k">⌘N</span></button>
   <button type="button" data-do="open:papers">Open Papers</button>
   <button type="button" data-do="open:finder">Open Finder</button>
-  <a href="assets/cv.pdf" target="_blank" rel="noopener">Download CV <span class="k">PDF</span></a>
+  <a href="assets/Alireza_Kheirandish_CV.pdf" target="_blank" rel="noopener">Download CV <span class="k">PDF</span></a>
   <hr>
   <button type="button" data-do="close">Close Window <span class="k">⌘W</span></button>
 </div>
@@ -393,8 +400,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
 
 <div id="desk">
   <a class="dfile" href="https://arxiv.org/abs/2605.31596" rel="noopener"><span class="ic"><i></i><i></i><i></i><span>PDF</span></span><b>KLIP_CVPR26.pdf</b></a>
-  <a class="dfile" href="assets/cv.pdf" target="_blank" rel="noopener"><span class="ic"><i></i><i></i><i></i><span>PDF</span></span><b>cv.pdf</b></a>
-  <button class="dfile" type="button" data-open="terminal" data-cmd="cv"><span class="ic"><i></i><i></i><i></i><span>TXT</span></span><b>cv.txt</b></button>
+  <a class="dfile" href="assets/Alireza_Kheirandish_CV.pdf" target="_blank" rel="noopener"><span class="ic"><i></i><i></i><i></i><span>PDF</span></span><b>CV.pdf</b></a>
 </div>
 
 <!-- ===== Finder ===== -->
@@ -407,6 +413,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
       <button type="button" class="item" data-folder="documents"><b>Documents</b></button>
       <button type="button" class="item" data-folder="papers"><b>Papers</b></button>
       <button type="button" class="item" data-folder="photos"><b>Photos</b></button>
+      <button type="button" class="item" data-folder="projects"><b>Projects</b></button>
       <button type="button" class="item" data-folder="apps"><b>Applications</b></button>
       <div class="grp">Locations</div>
       <button type="button" class="item" data-folder="gatech"><b>gatech.edu</b></button>
@@ -431,14 +438,16 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
         <a href="https://sarafridov.github.io/" rel="noopener"><i style="background:#2f6fe4">VL</i>VOILA Lab</a>
         <a href="https://arxiv.org/abs/2605.31596" rel="noopener"><i style="background:#b31b1b">ar</i>KLIP on arXiv</a>
         <a href="https://cvpr.thecvf.com/virtual/2026/poster/37660" rel="noopener"><i style="background:#1a1a2e">CV</i>CVPR 2026</a>
-        <a href="https://scholar.google.com/" rel="noopener"><i style="background:#4285f4">GS</i>Google Scholar</a>
-        <a href="https://github.com/" rel="noopener"><i style="background:#24292f">GH</i>GitHub</a>
-        <a href="https://www.linkedin.com/" rel="noopener"><i style="background:#0a66c2">in</i>LinkedIn</a>
+        <a href="https://scholar.google.com/citations?user=-9IKjn8AAAAJ&amp;hl=en" rel="noopener"><i style="background:#4285f4">GS</i>Google Scholar</a>
+        <a href="https://github.com/KheirAli" rel="noopener"><i style="background:#24292f">GH</i>GitHub</a>
+        <a href="https://www.linkedin.com/in/alireza-kheirandish-b66461175/" rel="noopener"><i style="background:#0a66c2">in</i>LinkedIn</a>
         <a href="https://www.sharif.edu/" rel="noopener"><i style="background:#0f4c81">SU</i>Sharif University</a>
       </div>
       <h2>Reading list</h2>
       <div class="fav">
         <a href="https://arxiv.org/abs/2610.31538" rel="noopener"><i style="background:#b31b1b">ar</i>LACToS</a>
+        <a href="https://arxiv.org/abs/2610.33194" rel="noopener"><i style="background:#b31b1b">ar</i>SORD</a>
+        <a href="https://github.com/voilalab/KLIP" rel="noopener"><i style="background:#24292f">GH</i>KLIP code</a>
         <a href="https://openaccess.thecvf.com/content/CVPR2026/supplemental/Kheirandish_KLIP_Localized_Distribution_CVPR_2026_supplemental.pdf" rel="noopener"><i style="background:#555">S</i>KLIP supplement</a>
       </div>
     </div>
@@ -487,7 +496,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
       <button type="button" class="item on" data-note="hi"><b>Hi, I'm Al.</b><small><time>just now</time>Welcome to my corner of the internet.</small></button>
       <div class="grp">Research</div>
       <button type="button" class="item" data-note="klip"><b>KLIP</b><small><time>6/1/26</time>Where do the measurements disagree with the prior?</small></button>
-      <button type="button" class="item" data-note="sord"><b>SORD</b><small><time>2026</time>Removing structured corruption without paired data</small></button>
+      <button type="button" class="item" data-note="sord"><b>SORD</b><small><time>10/26</time>Removing structured corruption without paired data</small></button>
       <button type="button" class="item" data-note="lactos"><b>LACToS</b><small><time>10/26</time>Typicality, one superpixel at a time</small></button>
       <button type="button" class="item" data-note="earlier"><b>Earlier work</b><small><time>2023–25</time>Symbolic RL, emotion detection, graph signals</small></button>
       <div class="grp">Personal</div>
@@ -501,11 +510,11 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
         <h1>Hi, I'm Al.</h1>
         <p>Welcome to my personal website. This is where I keep notes on my research, a list of my papers, and a few things I find interesting.</p>
         <p>I'm a Ph.D. student in Electrical and Computer Engineering at <a href="https://www.ece.gatech.edu/" rel="noopener">Georgia Tech</a>, advised by <a href="https://sarafridov.github.io/" rel="noopener">Sara Fridovich-Keil</a> in the VOILA Lab. I work on diffusion models for inverse problems. The question I keep coming back to is what happens when the prior and the data disagree: how to detect that disagreement from partial measurements, localize it in space, and restore the signal anyway.</p>
-        <p>My first paper on this, <a href="https://arxiv.org/abs/2605.31596" rel="noopener">KLIP</a>, appeared at CVPR 2026 and was also my M.S. thesis. Since then I've been working on removing structured corruption with diffusion models (SORD) and on superpixel-level anomaly detection (LACToS) with Jihoon Hong and Rohan Sanda.</p>
+        <p>My first paper on this, <a href="https://arxiv.org/abs/2605.31596" rel="noopener">KLIP</a>, appeared at CVPR 2026 and was also my M.S. thesis. Since then I've put out two preprints: <a href="https://arxiv.org/abs/2610.33194" rel="noopener">SORD</a>, on removing structured corruption with diffusion models, and <a href="https://arxiv.org/abs/2610.31538" rel="noopener">LACToS</a>, on superpixel-level anomaly detection with Jihoon Hong and Rohan Sanda.</p>
         <p>Before inverse problems I spent time on LLM-augmented symbolic reinforcement learning at the SENTINEL Lab, co-developed EmoRationale for SemEval 2025 with the GT-NLP group, and did my undergraduate research on graph-signal denoising at Sharif University of Technology, where I finished my B.S. in Electrical Engineering ranked 6th of 176.</p>
         <p>I grew up in Iran and moved to Atlanta for graduate school. I've TA'd six courses, from circuit analysis to computational imaging, and I'm on the boards of the Iranian Student Association at Georgia Tech and the Sharif alumni chapter in Atlanta.</p>
         <p>If you want to talk about diffusion priors, OOD detection, or anything in computational imaging, my inbox is open: <code style="user-select:all">akheirandish3@gatech.edu</code>.</p>
-        <p class="tags"><span>GitHub</span><span>Google Scholar</span><span>LinkedIn</span><span>Email</span></p>
+        <p class="tags"><a href="https://github.com/KheirAli" rel="noopener">GitHub</a><a href="https://scholar.google.com/citations?user=-9IKjn8AAAAJ&amp;hl=en" rel="noopener">Google Scholar</a><a href="https://www.linkedin.com/in/alireza-kheirandish-b66461175/" rel="noopener">LinkedIn</a><a href="assets/Alireza_Kheirandish_CV.pdf" target="_blank" rel="noopener">CV (PDF)</a></p>
       </article>
       <article class="panel" id="note-klip" hidden>
         <div class="stamp">June 1, 2026</div>
@@ -525,7 +534,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
         <h1>SORD: support-guided OOD removal with diffusion</h1>
         <p>Structured corruption, such as a watermark, an occluding object, or a burst of interference in audio, is hard to remove because you usually need either paired data or a model of the corruption. SORD uses neither.</p>
         <p>The observation is that the support of the clean signal is informative even when the corruption is not. We use the available measurements to guide diffusion restoration past the corrupted region, letting the prior fill in what the measurements can't say, and nothing more. It works on images and on audio.</p>
-        <p>Preprint in preparation; link to follow.</p>
+        <p>With Sara Fridovich-Keil. <a href="https://arxiv.org/abs/2610.33194" rel="noopener">arXiv:2610.33194</a> · <a href="https://github.com/voilalab/SORD" rel="noopener">code</a>.</p>
       </article>
       <article class="panel" id="note-lactos" hidden>
         <div class="stamp">October 2026</div>
@@ -548,7 +557,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
         <h1>Now</h1>
         <ul>
           <li>Second year of the Ph.D. at Georgia Tech.</li>
-          <li>Writing up SORD and pushing LACToS through review.</li>
+          <li>SORD and LACToS are on arXiv; both are under review.</li>
           <li>TA for Foundations of Computational Imaging this fall.</li>
           <li>Running community outreach for the Iranian Student Association.</li>
         </ul>
@@ -575,7 +584,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
           <tbody>
             <tr data-i="0" class="on"><td><span class="fi"></span>KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems</td><td>CVPR</td><td>Conference</td><td>2026</td></tr>
             <tr data-i="1"><td><span class="fi"></span>LACToS: Local Anomaly Detection via Conditional Typicality of Superpixels</td><td>arXiv</td><td>Preprint</td><td>2026</td></tr>
-            <tr data-i="2"><td><span class="fi"></span>SORD: Support-Guided OOD Removal with Diffusion</td><td>—</td><td>In preparation</td><td>2026</td></tr>
+            <tr data-i="2"><td><span class="fi"></span>SORD: Support-Guided OOD Removal with Diffusion</td><td>arXiv</td><td>Preprint</td><td>2026</td></tr>
             <tr data-i="3"><td><span class="fi"></span>LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition</td><td>ICASSP</td><td>Conference</td><td>2025</td></tr>
             <tr data-i="4"><td><span class="fi"></span>GT-NLP at SemEval-2025 Task 11: EmoRationale</td><td>SemEval</td><td>Workshop</td><td>2025</td></tr>
             <tr data-i="5"><td><span class="fi"></span>KLIP (M.S. thesis)</td><td>Georgia Tech</td><td>Thesis</td><td>2026</td></tr>
@@ -604,7 +613,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   <div class="body">
     <div class="main rem">
       <h2>Research <span id="remcount">6</span></h2>
-      <label><input type="checkbox" id="r1"><span>Put SORD on arXiv<small>Before the ICLR deadline</small></span></label>
+      <label><input type="checkbox" id="r1" checked><span>Put SORD on arXiv<small>Done: arXiv:2610.33194</small></span></label>
       <label><input type="checkbox" id="r2"><span>Reply to Reviewer 2 on LACToS<small>They want the X-ray ablation</small></span></label>
       <label><input type="checkbox" id="r3"><span>Office hours, Computational Imaging<small>Thursday 3–4 pm</small></span></label>
       <label><input type="checkbox" id="r4"><span>Re-run KLIP with the new medical set<small>Check the calibration-free claim still holds</small></span></label>
@@ -625,9 +634,9 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
         <p>The fastest way to reach me is email. I read everything, and I'm especially happy to hear from students interested in diffusion models and inverse problems, and from anyone who has a dataset with a distribution shift in it.</p>
         <p>You can also find me here:</p>
         <div class="links">
-          <a class="btn" href="https://scholar.google.com/" rel="noopener">Google Scholar</a>
-          <a class="btn" href="https://github.com/" rel="noopener">GitHub</a>
-          <a class="btn" href="https://www.linkedin.com/" rel="noopener">LinkedIn</a>
+          <a class="btn" href="https://scholar.google.com/citations?user=-9IKjn8AAAAJ&amp;hl=en" rel="noopener">Google Scholar</a>
+          <a class="btn" href="https://github.com/KheirAli" rel="noopener">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/alireza-kheirandish-b66461175/" rel="noopener">LinkedIn</a>
         </div>
         <p class="sig">Alireza Kheirandish<br>School of Electrical and Computer Engineering<br>Georgia Institute of Technology, Atlanta, GA</p>
       </div>
@@ -645,7 +654,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
         <button type="button" class="btn" id="restart">↻ Restart</button>
         <span id="tstep">t = 1.00</span>
         <label><input type="checkbox" id="hl" checked> highlight shift</label>
-        <span style="margin-left:auto">770 in-distribution (happy face) · 130 OOD (frowny lips)</span>
+        <span class="legend" style="margin-left:auto"><i style="background:#9be37a"></i>in-distribution (happy face, 770)<i style="background:#c77dff"></i>out-of-distribution (frowny lips, 130)</span>
       </div>
     </div>
   </div>
@@ -830,20 +839,18 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   }
   function paintSketchBg(c, W, H, dark) {
     // plain paper: one flat tone with a very soft vignette
-    c.fillStyle = dark ? '#1b1b1e' : '#f5f3ef'; c.fillRect(0, 0, W, H);
+    c.fillStyle = '#f5f3ef'; c.fillRect(0, 0, W, H);   // the cat wallpaper stays light paper in both themes
     var v = c.createRadialGradient(W * .45, H * .4, Math.min(W, H) * .2, W * .5, H * .5, Math.max(W, H) * .85);
-    v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, dark ? 'rgba(0,0,0,.45)' : 'rgba(0,0,0,.06)');
+    v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.07)');
     c.fillStyle = v; c.fillRect(0, 0, W, H);
   }
   function paintCat(c, W, H, dark) {
-    var ink = dark ? '#ece6d8' : '#1e1c1a';
+    var ink = '#1e1c1a';
     var ch = Math.min(H * .5, W * .36), cw = catImg.naturalWidth ? ch * catImg.naturalWidth / catImg.naturalHeight : ch * .94;
     var cx = Math.max(W * .04, 24), cy = H - Math.max(H * .11, 70) - ch;
     c.save();
     if (catImg.complete && catImg.naturalWidth) {
-      try { c.filter = dark ? 'invert(1) brightness(1.05)' : 'none'; } catch (e) {}
       c.drawImage(catImg, cx, cy, cw, ch);
-      try { c.filter = 'none'; } catch (e) {}
     }
     // handwritten message, no box
     var f1 = Math.max(26, Math.min(W, H) * .07), f2 = Math.max(16, f1 * .62), tx = cx + cw + Math.min(W, H) * .04, ty = cy + ch * .66;
@@ -862,16 +869,18 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
     c.putImageData(img, 0, 0);
   }
   function composite(k) {
-    var W = wall.width, H = wall.height;
+    var W = wall.width, H = wall.height, px = W / innerWidth;   // canvas pixels per CSS pixel
     wctx.clearRect(0, 0, W, H);
-    try { wctx.filter = k > .02 ? 'blur(' + (k * k * 24) + 'px)' : 'none'; } catch (e) {}
+    try { wctx.filter = k > .02 ? 'blur(' + (k * k * 14 * px) + 'px)' : 'none'; } catch (e) {}
     wctx.drawImage(scene, 0, 0);
     try { wctx.filter = 'none'; } catch (e) {}
     if (k > 0) { wctx.globalAlpha = Math.min(1, k * 1.15); wctx.drawImage(nz, 0, 0, W, H); wctx.globalAlpha = 1; }
   }
   function drawWall() {
     if (!wall) return;
-    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    document.body.classList.toggle('wall-cat', wallName === 'cat' || (wallName === 'photo' && !(wallImg.complete && wallImg.naturalWidth)));
+    // While the reveal runs, render at half resolution so the per-frame blur stays cheap; the final frame is full resolution.
+    var dpr = revealK > 0 ? .5 : Math.min(2, window.devicePixelRatio || 1);
     var W = wall.width = Math.floor(innerWidth * dpr), H = wall.height = Math.floor(innerHeight * dpr), dark = isDark();
     scene.width = W; scene.height = H; paintScene(scene.getContext('2d'), W, H, dark);
     if (revealK > 0) paintNoise(W, H, dark);
@@ -880,13 +889,13 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   function reveal() {
     if (revealRaf) cancelAnimationFrame(revealRaf);
     if (reduceMotion()) { revealK = 0; drawWall(); return; }
-    revealK = 1; var t0 = null, dur = 3200, n = 0; drawWall();
+    revealK = 1; var t0 = null, dur = 2600, n = 0; drawWall();
     function step(ts) {
       if (t0 === null) t0 = ts;
       var p = Math.min(1, (ts - t0) / dur); revealK = Math.pow(1 - p, 1.7);
-      if (n++ % 2 === 0 && revealK > .03) paintNoise(wall.width, wall.height, isDark());
+      if (n++ % 3 === 0 && revealK > .03) paintNoise(wall.width, wall.height, isDark());
       composite(revealK);
-      if (p < 1) revealRaf = requestAnimationFrame(step); else { revealK = 0; revealRaf = null; composite(0); }
+      if (p < 1) revealRaf = requestAnimationFrame(step); else { revealK = 0; revealRaf = null; drawWall(); }
     }
     revealRaf = requestAnimationFrame(step);
   }
@@ -966,11 +975,11 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
 
   /* ---------- papers ---------- */
   var pubs = [
-    { t: 'KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems', a: '<b>Alireza Kheirandish</b>, Jihoon Hong, Sara Fridovich-Keil', v: 'CVPR 2026', s: 'A spatial KL divergence between the clean diffusion prior and the measurement-conditioned posterior gives a calibration-free, per-pixel map of distribution shift.', links: [['Paper', 'https://arxiv.org/abs/2605.31596'], ['CVF', 'https://openaccess.thecvf.com/content/CVPR2026/html/Kheirandish_KLIP_Localized_Distribution_Shift_Detection_via_KL-Divergence_with_Diffusion_Priors_CVPR_2026_paper.html'], ['Code', 'https://github.com/']], bib: '@inproceedings{kheirandish2026klip,\n  title     = {KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems},\n  author    = {Kheirandish, Alireza and Hong, Jihoon and Fridovich-Keil, Sara},\n  booktitle = {CVPR},\n  year      = {2026}\n}' },
-    { t: 'LACToS: Local Anomaly Detection via Conditional Typicality of Superpixels', a: 'Jihoon Hong, <b>Alireza Kheirandish</b>, Rohan Sanda, Sara Fridovich-Keil', v: 'arXiv 2026', s: 'Superpixel-level conditional typicality under a diffusion prior, computed with an efficient statistical proxy; evaluated on medical, face, and X-ray security images.', links: [['Paper', 'https://arxiv.org/abs/2610.31538'], ['Code', 'https://github.com/']], bib: '@article{hong2026lactos,\n  title   = {LACToS: Local Anomaly Detection via Conditional Typicality of Superpixels},\n  author  = {Hong, Jihoon and Kheirandish, Alireza and Sanda, Rohan and Fridovich-Keil, Sara},\n  journal = {arXiv preprint arXiv:2610.31538},\n  year    = {2026}\n}' },
-    { t: 'SORD: Support-Guided OOD Removal with Diffusion', a: '<b>Alireza Kheirandish</b> et al.', v: 'In preparation, 2026', s: 'Measurement-guided diffusion restoration past localized structured corruption in images and audio, without paired data or a corruption model.', links: [], bib: '' },
-    { t: 'LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition', a: '<b>Alireza Kheirandish</b>, Duo Xu, Faramarz Fekri', v: 'IEEE ICASSP 2025', s: 'A language model decomposes tasks into landmark-based subtasks and proposes first-order logic rule templates, refined by inductive logic programming.', links: [['Paper', 'https://ieeexplore.ieee.org/']], bib: '@inproceedings{kheirandish2025llmrl,\n  title     = {LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition},\n  author    = {Kheirandish, Alireza and Xu, Duo and Fekri, Faramarz},\n  booktitle = {ICASSP},\n  year      = {2025}\n}' },
-    { t: 'GT-NLP at SemEval-2025 Task 11: EmoRationale, Evidence-Based Emotion Detection via Retrieval-Augmented Generation', a: 'Daniel Saeedi, <b>Alireza Kheirandish</b>, Sirwe Saeedi, Hossein Sahour, Aliakbar Panahi, Iman Naeeni', v: 'SemEval 2025', s: 'Retrieval-augmented, evidence-based multilingual emotion detection without task-specific fine-tuning.', links: [['Paper', 'https://aclanthology.org/']], bib: '@inproceedings{saeedi2025emorationale,\n  title     = {GT-NLP at SemEval-2025 Task 11: EmoRationale},\n  author    = {Saeedi, Daniel and Kheirandish, Alireza and Saeedi, Sirwe and Sahour, Hossein and Panahi, Aliakbar and Naeeni, Iman},\n  booktitle = {SemEval},\n  year      = {2025}\n}' },
+    { t: 'KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems', a: '<b>Alireza Kheirandish</b>, Jihoon Hong, Sara Fridovich-Keil', v: 'CVPR 2026', s: 'A spatial KL divergence between the clean diffusion prior and the measurement-conditioned posterior gives a calibration-free, per-pixel map of distribution shift.', links: [['Paper', 'https://arxiv.org/abs/2605.31596'], ['CVF PDF', 'https://openaccess.thecvf.com/content/CVPR2026/papers/Kheirandish_KLIP_Localized_Distribution_Shift_Detection_via_KL-Divergence_with_Diffusion_Priors_CVPR_2026_paper.pdf'], ['Code', 'https://github.com/voilalab/KLIP']], bib: '@inproceedings{kheirandish2026klip,\n  title     = {KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems},\n  author    = {Kheirandish, Alireza and Hong, Jihoon and Fridovich-Keil, Sara},\n  booktitle = {CVPR},\n  year      = {2026}\n}' },
+    { t: 'LACToS: Local Anomaly Detection via Conditional Typicality of Superpixels', a: 'Jihoon Hong, <b>Alireza Kheirandish</b>, Rohan Sanda, Sara Fridovich-Keil', v: 'arXiv 2026', s: 'Superpixel-level conditional typicality under a diffusion prior, computed with an efficient statistical proxy; evaluated on medical, face, and X-ray security images.', links: [['Paper', 'https://arxiv.org/abs/2610.31538'], ['Code', 'https://github.com/voilalab/LACToS']], bib: '@article{hong2026lactos,\n  title   = {LACToS: Local Anomaly Detection via Conditional Typicality of Superpixels},\n  author  = {Hong, Jihoon and Kheirandish, Alireza and Sanda, Rohan and Fridovich-Keil, Sara},\n  journal = {arXiv preprint arXiv:2610.31538},\n  year    = {2026}\n}' },
+    { t: 'SORD: Support-Guided OOD Removal with Diffusion', a: '<b>Alireza Kheirandish</b>, Sara Fridovich-Keil', v: 'arXiv 2026', s: 'Measurement-guided diffusion restoration past localized structured corruption in images and audio, without paired data or a corruption model.', links: [['Paper', 'https://arxiv.org/abs/2610.33194'], ['Code', 'https://github.com/voilalab/SORD']], bib: '@article{kheirandish2026sord,\n  title   = {SORD: Support-Guided OOD Removal with Diffusion},\n  author  = {Kheirandish, Alireza and Fridovich-Keil, Sara},\n  journal = {arXiv preprint arXiv:2610.33194},\n  year    = {2026}\n}' },
+    { t: 'LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition', a: '<b>Alireza Kheirandish</b>, Duo Xu, Faramarz Fekri', v: 'IEEE ICASSP 2025', s: 'A language model decomposes tasks into landmark-based subtasks and proposes first-order logic rule templates, refined by inductive logic programming.', links: [['Paper', 'https://ieeexplore.ieee.org/document/10889431'], ['Code', 'https://github.com/KheirAli/LLM_Landmark']], bib: '@inproceedings{kheirandish2025llmrl,\n  title     = {LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition},\n  author    = {Kheirandish, Alireza and Xu, Duo and Fekri, Faramarz},\n  booktitle = {ICASSP},\n  year      = {2025}\n}' },
+    { t: 'GT-NLP at SemEval-2025 Task 11: EmoRationale, Evidence-Based Emotion Detection via Retrieval-Augmented Generation', a: 'Daniel Saeedi, <b>Alireza Kheirandish</b>, Sirwe Saeedi, Hossein Sahour, Aliakbar Panahi, Iman Naeeni', v: 'SemEval 2025', s: 'Retrieval-augmented, evidence-based multilingual emotion detection without task-specific fine-tuning.', links: [['Paper', 'https://aclanthology.org/2025.semeval-1.90/'], ['Code', 'https://github.com/daniel-saeedi/SemEvalTask11_EmoRationale']], bib: '@inproceedings{saeedi2025emorationale,\n  title     = {GT-NLP at SemEval-2025 Task 11: EmoRationale},\n  author    = {Saeedi, Daniel and Kheirandish, Alireza and Saeedi, Sirwe and Sahour, Hossein and Panahi, Aliakbar and Naeeni, Iman},\n  booktitle = {SemEval},\n  year      = {2025}\n}' },
     { t: 'KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems (M.S. thesis)', a: '<b>Alireza Kheirandish</b>; advisor Sara Fridovich-Keil', v: 'Georgia Institute of Technology, 2026', s: 'Master of Science in Electrical and Computer Engineering.', links: [], bib: '' }
   ];
   function showPub(i) {
@@ -1002,13 +1011,13 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   var files = {
     'about.txt': 'Alireza (Al) Kheirandish\nPh.D. student, Electrical and Computer Engineering, Georgia Tech\nAdvisor: Sara Fridovich-Keil (VOILA Lab)\nFocus: diffusion models for inverse problems; detecting and removing\n       localized distribution shifts from measurements.',
     'cv.txt': '',
-    'contact.txt': 'email    akheirandish3@gatech.edu\nscholar  https://scholar.google.com/\ngithub   https://github.com/\nlinkedin https://www.linkedin.com/'
+    'contact.txt': 'email    akheirandish3@gatech.edu\nscholar  https://scholar.google.com/citations?user=-9IKjn8AAAAJ&hl=en\ngithub   https://github.com/KheirAli\nlinkedin https://www.linkedin.com/in/alireza-kheirandish-b66461175/'
   };
   var cv = {
     education: '<span class="h">EDUCATION</span>\n  2024–      Ph.D., Electrical and Computer Engineering, Georgia Tech      GPA 4.0\n  2026       M.S., Electrical and Computer Engineering, Georgia Tech       GPA 4.0\n             Thesis: KLIP — localized distribution shift detection\n  2018–2023  B.S., Electrical Engineering (Communications), Sharif Univ.   18.99/20\n             Ranked 6 / 176',
     experience: '<span class="h">RESEARCH EXPERIENCE</span>\n  2024–      VOILA Lab, Georgia Tech — Graduate Research Assistant\n             Diffusion models, inverse problems, localized distribution shift (KLIP, SORD, LACToS)\n  2024       SENTINEL Lab, Georgia Tech — LLM-augmented symbolic RL, landmark-based task decomposition\n  2025       GT-NLP, Georgia Tech — retrieval-augmented multilingual emotion detection (SemEval-2025)\n  2022–2023  DSP Lab, Sharif Univ. — graph-signal denoising with Graph EMD at low SNR',
     teaching: '<span class="h">TEACHING (TA)</span>\n  Georgia Tech   Foundations of Computational Imaging (F25) · Circuit Analysis, ECE 2040\n  Sharif         Probabilistic Graphical Models · Probability and Statistics\n                 AI and Biological Computation · EEG Signal Processing',
-    pubs: '<span class="h">PUBLICATIONS</span>\n  [1] KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors\n      in Inverse Problems. <b>Kheirandish</b>, Hong, Fridovich-Keil. CVPR 2026.\n      <a href="https://arxiv.org/abs/2605.31596" rel="noopener">arxiv.org/abs/2605.31596</a>\n  [2] LACToS: Local Anomaly Detection via Conditional Typicality of Superpixels.\n      Hong, <b>Kheirandish</b>, Sanda, Fridovich-Keil. arXiv 2026.\n  [3] SORD: Support-Guided OOD Removal with Diffusion. In preparation.\n  [4] LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition.\n      <b>Kheirandish</b>, Xu, Fekri. ICASSP 2025.\n  [5] GT-NLP at SemEval-2025 Task 11: EmoRationale. Saeedi, <b>Kheirandish</b>, et al. SemEval 2025.',
+    pubs: '<span class="h">PUBLICATIONS</span>\n  [1] KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors\n      in Inverse Problems. <b>Kheirandish</b>, Hong, Fridovich-Keil. CVPR 2026.\n      <a href="https://arxiv.org/abs/2605.31596" rel="noopener">arxiv.org/abs/2605.31596</a>\n  [2] LACToS: Local Anomaly Detection via Conditional Typicality of Superpixels.\n      Hong, <b>Kheirandish</b>, Sanda, Fridovich-Keil. arXiv 2026.\n  [3] SORD: Support-Guided OOD Removal with Diffusion. <b>Kheirandish</b>, Fridovich-Keil. arXiv 2026.\n      <a href="https://arxiv.org/abs/2610.33194" rel="noopener">arxiv.org/abs/2610.33194</a>\n  [4] LLM-Augmented Symbolic RL with Landmark-Based Task Decomposition.\n      <b>Kheirandish</b>, Xu, Fekri. ICASSP 2025.\n  [5] GT-NLP at SemEval-2025 Task 11: EmoRationale. Saeedi, <b>Kheirandish</b>, et al. SemEval 2025.',
     honors: '<span class="h">HONORS &amp; SERVICE</span>\n  159 / ~144,000   Iran National University Entrance Exam (Math/Physics), 2018\n  6 / 176          Sharif EE class rank\n  Board member &amp; community outreach chief, Iranian Student Association, Georgia Tech\n  Board member &amp; treasurer, Sharif University Association (SUTA), Atlanta chapter',
     skills: '<span class="h">SKILLS</span>\n  Python · C/C++ · MATLAB · PyTorch · TensorFlow · Git · Linux · LaTeX\n  Persian (native) · English (professional)'
   };
@@ -1018,13 +1027,13 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   // A tiny virtual filesystem for cd / ls / cat. Keys are directories; entries ending in "/" are subdirectories.
   var FS = {
     '~': ['about.txt', 'cv.txt', 'contact.txt', 'papers/', 'klip/', 'teaching/'],
-    '~/papers': ['klip_cvpr2026.pdf', 'lactos_arxiv2026.pdf', 'sord_draft.tex', 'icassp2025_symbolic_rl.pdf', 'semeval2025_emorationale.pdf'],
+    '~/papers': ['klip_cvpr2026.pdf', 'lactos_arxiv2026.pdf', 'sord_arxiv2026.pdf', 'icassp2025_symbolic_rl.pdf', 'semeval2025_emorationale.pdf'],
     '~/klip': ['README.md', 'klip.py', 'configs/', 'results/'],
     '~/klip/configs': ['celeba_deblur.yaml', 'xray_inpaint.yaml', 'medical_sr.yaml'],
     '~/klip/results': ['README.md'],
     '~/teaching': ['computational_imaging_f25.md', 'ece2040_circuits.md']
   };
-  files['papers/sord_draft.tex'] = '\\title{SORD: Support-Guided OOD Removal with Diffusion}\n\\author{Alireza Kheirandish et al.}\n% in preparation';
+  files['papers/sord_arxiv2026.pdf'] = 'SORD: Support-Guided OOD Removal with Diffusion — Kheirandish, Fridovich-Keil — arXiv:2610.33194\nhttps://arxiv.org/abs/2610.33194 · code: https://github.com/voilalab/SORD';
   files['klip/README.md'] = 'KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems\nCVPR 2026 · arXiv:2605.31596\n\nusage: python klip.py --config configs/celeba_deblur.yaml\n\nComputes a spatial KL divergence between the clean diffusion prior and the\nmeasurement-conditioned posterior; large values mark where the measurements\ncontradict the prior. No calibration set, no corruption model.';
   files['klip/klip.py'] = '# KLIP reference implementation\n# see https://arxiv.org/abs/2605.31596';
   files['klip/results/README.md'] = 'Figures and tables are in the paper; code link coming soon.';
@@ -1104,7 +1113,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
       var k = ood[i] ? Math.max(alpha, .025) : alpha, x = target[i][0] * (1 - k) + noise[i][0] * k, y = target[i][1] * (1 - k) + noise[i][1] * k;
       var mark = hl && ood[i] && tt < .25;
       ctx.beginPath(); ctx.arc(x, y, mark ? 4.4 : 3, 0, 6.283);
-      ctx.fillStyle = mark ? '#ff7a9c' : '#d6f5c9'; ctx.globalAlpha = mark ? .95 : .6; ctx.fill();
+      ctx.fillStyle = mark ? '#c77dff' : '#9be37a'; ctx.globalAlpha = mark ? .95 : .7; ctx.fill();
     }
     ctx.globalAlpha = 1; $('#tstep').textContent = 't = ' + tt.toFixed(2);
   }
@@ -1122,21 +1131,24 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   var folders = {
     desktop: { path: 'al › Desktop', items: [
       { k: 'doc', n: 'KLIP_CVPR26.pdf', href: 'https://arxiv.org/abs/2605.31596', tag: 'PDF' },
-      { k: 'doc', n: 'cv.pdf', href: 'assets/cv.pdf', tag: 'PDF' },
-      { k: 'doc', n: 'cv.txt', app: 'terminal', cmd: 'cv', tag: 'TXT' } ] },
+      { k: 'doc', n: 'Alireza_Kheirandish_CV.pdf', href: 'assets/Alireza_Kheirandish_CV.pdf', tag: 'PDF' } ] },
     documents: { path: 'al › Documents', items: [
       { k: 'fo', n: 'Papers', folder: 'papers' }, { k: 'fo', n: 'Photos', folder: 'photos' },
-      { k: 'doc', n: 'cv.pdf', href: 'assets/cv.pdf', tag: 'PDF' },
+      { k: 'doc', n: 'Alireza_Kheirandish_CV.pdf', href: 'assets/Alireza_Kheirandish_CV.pdf', tag: 'PDF' },
       { k: 'doc', n: 'MS_thesis_KLIP.pdf', href: 'https://arxiv.org/abs/2605.31596', tag: 'PDF' },
       { k: 'doc', n: 'KLIP_supplement.pdf', href: 'https://openaccess.thecvf.com/content/CVPR2026/supplemental/Kheirandish_KLIP_Localized_Distribution_CVPR_2026_supplemental.pdf', tag: 'PDF' } ] },
     papers: { path: 'al › Documents › Papers', items: [
-      { k: 'doc', n: 'KLIP (CVPR 2026)', href: 'https://arxiv.org/abs/2605.31596', tag: 'PDF' },
+      { k: 'doc', n: 'KLIP (CVPR 2026)', href: 'https://openaccess.thecvf.com/content/CVPR2026/papers/Kheirandish_KLIP_Localized_Distribution_Shift_Detection_via_KL-Divergence_with_Diffusion_Priors_CVPR_2026_paper.pdf', tag: 'PDF' },
+      { k: 'fo', n: 'KLIP code', href: 'https://github.com/voilalab/KLIP' },
       { k: 'doc', n: 'LACToS (arXiv 2026)', href: 'https://arxiv.org/abs/2610.31538', tag: 'PDF' },
-      { k: 'doc', n: 'SORD (in prep)', app: 'papers', tag: 'TEX' },
-      { k: 'doc', n: 'LLM Symbolic RL (ICASSP 2025)', href: 'https://ieeexplore.ieee.org/', tag: 'PDF' },
-      { k: 'doc', n: 'EmoRationale (SemEval 2025)', href: 'https://aclanthology.org/', tag: 'PDF' },
+      { k: 'doc', n: 'SORD (arXiv 2026)', href: 'https://arxiv.org/abs/2610.33194', tag: 'PDF' },
+      { k: 'doc', n: 'LLM Symbolic RL (ICASSP 2025)', href: 'https://ieeexplore.ieee.org/document/10889431', tag: 'PDF' },
+      { k: 'doc', n: 'EmoRationale (SemEval 2025)', href: 'https://aclanthology.org/2025.semeval-1.90/', tag: 'PDF' },
       { k: 'app', n: 'Open in Papers.app', app: 'papers' } ] },
     photos: { path: 'al › Pictures', items: [ { k: 'app', n: 'Open in Photos.app', app: 'photos' } ] },
+    projects: { path: 'al › Projects', items: [
+      { k: 'fo', n: 'Protein mutation effect', href: 'https://github.com/KheirAli/Multi-Modal-Protein-Mutation-Effect' },
+      { k: 'fo', n: 'EEG/EOG drowsiness glasses', href: 'https://github.com/KheirAli/Wearable-Glasses-for-EEG-EOG-sensing' } ] },
     apps: { path: 'al › Applications', items: [] },
     gatech: { path: 'gatech.edu', items: [
       { k: 'fo', n: 'School of ECE', href: 'https://www.ece.gatech.edu/' },
@@ -1165,7 +1177,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
 
   /* ---------- messages (FAQ) ---------- */
   var faq = [
-    ['What do you work on?', 'Diffusion models for inverse problems. Specifically: detecting when the measurements disagree with the prior, localizing that disagreement in space, and restoring the signal anyway. KLIP, SORD, and LACToS are the three papers so far.'],
+    ['What do you work on?', 'Diffusion models for inverse problems. Specifically: detecting when the measurements disagree with the prior, localizing that disagreement in space, and restoring the signal anyway. KLIP (CVPR 2026), SORD (arXiv 2026), and LACToS (arXiv 2026) are the three papers so far.'],
     ['KLIP in one sentence?', 'A spatial KL divergence between the clean diffusion prior and the measurement-conditioned posterior gives you a per-pixel map of distribution shift, with no calibration set and no corruption model. <a href="https://arxiv.org/abs/2605.31596" rel="noopener">arXiv</a>.'],
     ['Who is your advisor?', 'Sara Fridovich-Keil, in the VOILA Lab at Georgia Tech ECE.'],
     ['Where did you study?', 'B.S. in Electrical Engineering at Sharif University of Technology (ranked 6 of 176), then M.S. (2026) and now Ph.D. at Georgia Tech.'],
