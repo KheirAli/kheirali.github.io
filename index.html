@@ -1276,7 +1276,9 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   });
 
   /* ---------- boot ---------- */
-  reveal();
+  try { reveal(); } catch (e) { revealK = 0; try { drawWall(); } catch (e2) {} }
+  // Safety net: if the reveal animation stalls (background tab, throttled timers), finish it anyway.
+  setTimeout(function () { if (revealK > 0) { if (revealRaf) cancelAnimationFrame(revealRaf); revealRaf = null; revealK = 0; drawWall(); } }, 4500);
   openApp('notes');
   if (!isMobile()) { var w = $('#w-notes'); w.style.width = Math.min(760, innerWidth - 32) + 'px'; w.style.height = Math.min(440, innerHeight - 170) + 'px'; w.style.top = '56px'; w.style.left = Math.max(16, innerWidth - w.offsetWidth - 120) + 'px'; }
 })();
