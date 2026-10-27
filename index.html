@@ -7,7 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f6f5f0'/%3E%3Crect width='64' height='17' rx='14' fill='%23f5c541'/%3E%3Crect y='12' width='64' height='5' fill='%23f5c541'/%3E%3Cpath d='M14 30h36M14 39h36M14 48h24' stroke='%23cfcdc6' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>html{color-scheme:dark} :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} img{max-width:100%} [hidden]{display:none!important}</style>
 <title>Al's Desktop</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500;700&display=swap">
 <style>
 /* Layout: a full-viewport simulated desktop — fixed menu bar on top, a dock at the bottom,
    and draggable app windows in between. Dark-first (macOS dark), light mode via Settings. */
@@ -78,9 +78,22 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
   padding-left: max(14px, env(safe-area-inset-left, 0px)); padding-right: max(14px, env(safe-area-inset-right, 0px));
   padding-top: env(safe-area-inset-top, 0px); box-sizing: content-box;
 }
-#bar .logo { width: 15px; height: 15px; border-radius: 50%; background: conic-gradient(from 200deg, var(--accent), #c084fc, #f472b6, var(--accent)); display: inline-block; }
+#bar .logo { width: 24px; height: 22px; border: none; padding: 0; background: none; cursor: pointer; display: grid; place-items: center; border-radius: 5px; }
+#bar .logo i { width: 15px; height: 15px; border-radius: 50%; background: conic-gradient(from 200deg, var(--accent), #c084fc, #f472b6, var(--accent)); display: block; }
+#bar .logo[aria-expanded="true"] { background: var(--sel); }
 #bar .appname { font-weight: 700; }
-#bar .menus { display: flex; gap: 1.1rem; color: var(--fg); }
+#bar .menus { display: flex; gap: 2px; color: var(--fg); }
+#bar .menus > button { background: none; border: none; padding: 2px 9px; border-radius: 5px; cursor: pointer; font: inherit; color: var(--fg); }
+#bar .menus > button[aria-expanded="true"] { background: var(--sel); }
+.dd { position: fixed; top: calc(30px + env(safe-area-inset-top, 0px)); min-width: 220px; background: var(--win-solid); border-radius: 9px; padding: 5px; box-shadow: var(--shadow); z-index: 90; font-size: 13px; font-weight: 400; }
+.dd[hidden] { display: none !important; }
+.dd button, .dd a { display: flex; justify-content: space-between; gap: 16px; width: 100%; text-align: left; background: none; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; color: var(--fg); text-decoration: none; font: inherit; }
+.dd button:hover, .dd a:hover, .dd button:focus-visible, .dd a:focus-visible { background: var(--accent); color: #fff; outline: none; }
+.dd button:hover .k, .dd a:hover .k { color: rgba(255,255,255,.8); }
+.dd hr { border: 0; border-top: 1px solid var(--rule); margin: 4px 6px; }
+.dd .k { color: var(--muted); font-size: 12px; }
+#sleep { position: fixed; inset: 0; background: #000; z-index: 100; cursor: pointer; display: grid; place-items: center; color: #555; font-size: 13px; }
+#sleep[hidden] { display: none !important; }
 #bar .right { margin-left: auto; display: flex; gap: .9rem; align-items: center; font-weight: 500; }
 #bar .right button { background: none; border: none; cursor: pointer; padding: 0 2px; display: inline-flex; }
 #bar svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
@@ -203,6 +216,13 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
 .walls { display: flex; gap: 10px; flex-wrap: wrap; }
 .walls button { width: 92px; height: 58px; border-radius: 8px; border: 2px solid transparent; cursor: pointer; padding: 0; }
 .walls button[aria-pressed="true"] { border-color: var(--accent); }
+.walls button span { font-size: 11px; font-weight: 600; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.acct { display: flex; align-items: center; gap: 14px; padding: 18px 20px; border-bottom: 1px solid var(--rule); background: var(--side); }
+.acct .av { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; flex: none; background: linear-gradient(135deg, #4f8cff, #c084fc); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 22px; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+.acct .av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.acct b { display: block; font-size: 17px; font-weight: 700; }
+.acct small { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.4; }
+.acct .chev { margin-left: auto; color: var(--faint); }
 .about { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; font-size: 13px; }
 .about dt { color: var(--muted); } .about dd { margin: 0; }
 .switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13.5px; }
@@ -307,9 +327,15 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
 <canvas id="wall" aria-hidden="true"></canvas>
 
 <div id="bar" role="banner">
-  <span class="logo" aria-hidden="true"></span>
+  <button type="button" class="logo" data-menu="apple" aria-haspopup="true" aria-expanded="false" aria-label="Main menu"><i></i></button>
   <span class="appname" id="appname">Finder</span>
-  <span class="menus" aria-hidden="true"><span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span></span>
+  <nav class="menus" aria-label="Menu bar">
+    <button type="button" data-menu="file" aria-haspopup="true" aria-expanded="false">File</button>
+    <button type="button" data-menu="edit" aria-haspopup="true" aria-expanded="false">Edit</button>
+    <button type="button" data-menu="view" aria-haspopup="true" aria-expanded="false">View</button>
+    <button type="button" data-menu="window" aria-haspopup="true" aria-expanded="false">Window</button>
+    <button type="button" data-menu="help" aria-haspopup="true" aria-expanded="false">Help</button>
+  </nav>
   <span class="right">
     <button type="button" id="themeBtn" aria-label="Toggle light or dark appearance" title="Toggle appearance">
       <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -319,6 +345,51 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
     <span id="clock">—</span>
   </span>
 </div>
+<div class="dd" id="dd-apple" hidden role="menu">
+  <button type="button" data-do="about">About This Site</button>
+  <button type="button" data-do="settings">System Settings…</button>
+  <hr>
+  <button type="button" data-do="reveal">Restart <span class="k">replay the diffusion</span></button>
+  <button type="button" data-do="sleep">Sleep</button>
+</div>
+<div class="dd" id="dd-file" hidden role="menu">
+  <button type="button" data-do="open:notes">New Note <span class="k">⌘N</span></button>
+  <button type="button" data-do="open:papers">Open Papers</button>
+  <button type="button" data-do="open:finder">Open Finder</button>
+  <a href="assets/cv.pdf" target="_blank" rel="noopener">Download CV <span class="k">PDF</span></a>
+  <hr>
+  <button type="button" data-do="close">Close Window <span class="k">⌘W</span></button>
+</div>
+<div class="dd" id="dd-edit" hidden role="menu">
+  <button type="button" data-do="copyemail">Copy Email Address</button>
+  <button type="button" data-do="copybib">Copy BibTeX (KLIP)</button>
+  <hr>
+  <button type="button" data-do="open:mail">Write to Al…</button>
+</div>
+<div class="dd" id="dd-view" hidden role="menu">
+  <button type="button" data-do="theme">Toggle Appearance <span class="k">light / dark</span></button>
+  <button type="button" data-do="motion">Reduce Motion <span class="k" id="motionmark"></span></button>
+  <hr>
+  <button type="button" data-do="wall:cat">Wallpaper: Cat</button>
+  <button type="button" data-do="wall:aurora">Wallpaper: Aurora</button>
+  <button type="button" data-do="wall:gauss">Wallpaper: Gaussian noise</button>
+  <button type="button" data-do="wall:graphite">Wallpaper: Graphite</button>
+</div>
+<div class="dd" id="dd-window" hidden role="menu">
+  <button type="button" data-do="min">Minimize <span class="k">⌘M</span></button>
+  <button type="button" data-do="zoom">Zoom</button>
+  <button type="button" data-do="front">Bring All to Front</button>
+  <hr>
+  <div id="winlist"></div>
+</div>
+<div class="dd" id="dd-help" hidden role="menu">
+  <button type="button" data-do="helpterm">Site Help <span class="k">Terminal</span></button>
+  <button type="button" data-do="open:messages">Ask Al a Question</button>
+  <hr>
+  <a href="https://arxiv.org/abs/2605.31596" target="_blank" rel="noopener">KLIP on arXiv</a>
+  <a href="https://github.com/KheirAli/kheirali.github.io" target="_blank" rel="noopener">Source on GitHub</a>
+</div>
+<div id="sleep" hidden>Click anywhere to wake</div>
 
 <div id="desk">
   <a class="dfile" href="https://arxiv.org/abs/2605.31596" rel="noopener"><span class="ic"><i></i><i></i><i></i><span>PDF</span></span><b>KLIP_CVPR26.pdf</b></a>
@@ -522,7 +593,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   <div class="body">
     <div class="term" id="term">
       <div class="out" id="termout"></div>
-      <div class="line"><span class="p">al@gatech</span>&nbsp;~ %&nbsp;<input id="termin" type="text" autocomplete="off" spellcheck="false" aria-label="Terminal command"></div>
+      <div class="line"><span class="p">al@gatech</span>&nbsp;<span id="cwd">~</span>&nbsp;%&nbsp;<input id="termin" type="text" autocomplete="off" spellcheck="false" aria-label="Terminal command"></div>
     </div>
   </div>
 </section>
@@ -569,12 +640,12 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>Diffusion — toy reverse process</div>
   <div class="body">
     <div class="diffwrap">
-      <canvas id="diff" aria-label="Animated reverse diffusion: points start as Gaussian noise and anneal onto a two-moons manifold; a cluster drawn from a different distribution never settles and is highlighted."></canvas>
+      <canvas id="diff" aria-label="Animated reverse diffusion: points start as Gaussian noise and anneal into a happy face; a set of frowny lips on the same face is drawn from a different distribution, never fully settles, and is highlighted."></canvas>
       <div class="diffbar">
         <button type="button" class="btn" id="restart">↻ Restart</button>
         <span id="tstep">t = 1.00</span>
         <label><input type="checkbox" id="hl" checked> highlight shift</label>
-        <span style="margin-left:auto">900 samples · 70 OOD</span>
+        <span style="margin-left:auto">770 in-distribution (happy face) · 130 OOD (frowny lips)</span>
       </div>
     </div>
   </div>
@@ -585,6 +656,11 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   <div class="titlebar"><div class="lights"><button type="button" class="c" data-act="close"><span>Close</span></button><button type="button" class="m" data-act="min"><span>Minimize</span></button><button type="button" class="z" data-act="max"><span>Zoom</span></button></div>System Settings</div>
   <div class="body">
     <div class="main set">
+      <div class="acct">
+        <div class="av"><img src="assets/profile.jpg" alt="Alireza Kheirandish" onerror="this.remove()">AK</div>
+        <div><b>Alireza Kheirandish</b><small>akheirandish3@gatech.edu<br>Ph.D. student · Georgia Institute of Technology</small></div>
+        <span class="chev">›</span>
+      </div>
       <section>
         <h2>Appearance</h2>
         <div class="seg" role="group" aria-label="Appearance">
@@ -596,7 +672,9 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
       <section>
         <h2>Wallpaper</h2>
         <div class="walls" role="group" aria-label="Wallpaper">
-          <button type="button" data-wall="aurora" aria-pressed="true" aria-label="Aurora" style="background:linear-gradient(135deg,#1e2a78,#7b3fa0,#e0608a)"></button>
+          <button type="button" data-wall="cat" aria-pressed="true" aria-label="Sketch" style="background:#f5f3ef"><span style="color:#1d1d1f;text-shadow:none">Cat</span></button>
+          <button type="button" data-wall="photo" aria-pressed="false" aria-label="Your photo" id="wallphoto" style="background:#555 center/cover no-repeat" hidden></button>
+          <button type="button" data-wall="aurora" aria-pressed="false" aria-label="Aurora" style="background:linear-gradient(135deg,#1e2a78,#7b3fa0,#e0608a)"></button>
           <button type="button" data-wall="gauss" aria-pressed="false" aria-label="Gaussian noise" style="background:radial-gradient(circle at 40% 40%,#777,#222)"></button>
           <button type="button" data-wall="graphite" aria-pressed="false" aria-label="Graphite" style="background:linear-gradient(160deg,#3a3d44,#15161a)"></button>
         </div>
@@ -684,46 +762,144 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function () { drawWall(); drawDiff(diffT); });
 
   /* ---------- wallpaper ---------- */
-  var wall = $('#wall'), wctx = wall.getContext('2d'), wallName = prefs.wall || 'aurora';
-  function drawWall() {
-    var dpr = Math.min(2, window.devicePixelRatio || 1);
-    var W = wall.width = Math.floor(innerWidth * dpr), H = wall.height = Math.floor(innerHeight * dpr);
-    var dark = isDark();
-    if (wallName === 'graphite') {
-      var g = wctx.createLinearGradient(0, 0, W, H);
-      g.addColorStop(0, dark ? '#3a3d44' : '#dfe3ea'); g.addColorStop(1, dark ? '#101115' : '#9aa3b2');
-      wctx.fillStyle = g; wctx.fillRect(0, 0, W, H);
-    } else if (wallName === 'gauss') {
-      wctx.fillStyle = dark ? '#1c1c1f' : '#d8d8dc'; wctx.fillRect(0, 0, W, H);
-      var img = wctx.createImageData(W, H), d = img.data;
-      for (var i = 0; i < d.length; i += 4) {
-        var u = 1 - Math.random(), v = Math.random(), z = Math.sqrt(-2 * Math.log(u)) * Math.cos(6.283 * v);
-        var val = (dark ? 70 : 190) + z * 22; d[i] = d[i + 1] = d[i + 2] = val; d[i + 3] = 255;
-      }
-      wctx.putImageData(img, 0, 0);
-      var rg = wctx.createRadialGradient(W * .5, H * .45, 0, W * .5, H * .45, Math.max(W, H) * .7);
-      rg.addColorStop(0, 'rgba(0,0,0,0)'); rg.addColorStop(1, dark ? 'rgba(0,0,0,.75)' : 'rgba(255,255,255,.5)');
-      wctx.fillStyle = rg; wctx.fillRect(0, 0, W, H);
-    } else {
-      var base = wctx.createLinearGradient(0, 0, W, H);
-      if (dark) { base.addColorStop(0, '#141a4a'); base.addColorStop(.55, '#4a2a7a'); base.addColorStop(1, '#8a3860'); }
-      else { base.addColorStop(0, '#9fb8ff'); base.addColorStop(.55, '#d9b8f5'); base.addColorStop(1, '#ffc9d6'); }
-      wctx.fillStyle = base; wctx.fillRect(0, 0, W, H);
-      var blobs = [[.2, .25, .5, dark ? 'rgba(80,140,255,.35)' : 'rgba(255,255,255,.45)'], [.75, .7, .6, dark ? 'rgba(240,110,160,.35)' : 'rgba(255,170,120,.35)'], [.6, .2, .4, dark ? 'rgba(150,90,255,.3)' : 'rgba(170,140,255,.35)']];
-      blobs.forEach(function (b) {
-        var r = wctx.createRadialGradient(W * b[0], H * b[1], 0, W * b[0], H * b[1], Math.max(W, H) * b[2]);
-        r.addColorStop(0, b[3]); r.addColorStop(1, 'rgba(0,0,0,0)'); wctx.fillStyle = r; wctx.fillRect(0, 0, W, H);
-      });
+  // Wallpapers are painted into an offscreen "scene" and revealed through a reverse-diffusion animation:
+  // the screen starts as Gaussian noise and denoises into the scene. To add your own photo, put it at
+  // assets/wallpaper.jpg; a "Your photo" tile then appears in System Settings.
+  var WALLPAPER = 'assets/wallpaper.jpg';
+  var MESSAGE = ['I’d love to connect!', 'Feel free to send me an email:', 'akheirandish3@gatech.edu'];
+  var CAT_IMG = 'assets/cat.png'; // transparent PNG of the cat drawing
+  var wall = $('#wall'), wctx = wall.getContext('2d'), wallName = prefs.wall || 'cat', wallImg = new Image();
+  var scene = document.createElement('canvas'), nz = document.createElement('canvas'), revealK = 0, revealRaf = null;
+  wallImg.addEventListener('load', function () {
+    $('#wallphoto').hidden = false; $('#wallphoto').style.backgroundImage = 'url("' + WALLPAPER + '")';
+    if (wallName === 'photo') drawWall();
+  });
+  wallImg.src = WALLPAPER;
+  var catImg = new Image(); catImg.addEventListener('load', function () { drawWall(); }); catImg.src = CAT_IMG;
+  function paintScene(c, W, H, dark) {
+    var g, name = wallName;
+    if (name === 'photo' && !(wallImg.complete && wallImg.naturalWidth)) name = 'cat';
+    if (name === 'photo') {
+      var sc = Math.max(W / wallImg.naturalWidth, H / wallImg.naturalHeight), iw = wallImg.naturalWidth * sc, ih = wallImg.naturalHeight * sc;
+      c.drawImage(wallImg, (W - iw) / 2, (H - ih) / 2, iw, ih); return;
     }
+    if (name === 'graphite') {
+      g = c.createLinearGradient(0, 0, W, H); g.addColorStop(0, dark ? '#3a3d44' : '#dfe3ea'); g.addColorStop(1, dark ? '#101115' : '#9aa3b2');
+      c.fillStyle = g; c.fillRect(0, 0, W, H); return;
+    }
+    if (name === 'gauss') {
+      c.fillStyle = dark ? '#1c1c1f' : '#d8d8dc'; c.fillRect(0, 0, W, H);
+      var img = c.createImageData(W, H), d = img.data;
+      for (var i = 0; i < d.length; i += 4) { var val = (dark ? 70 : 190) + gauss() * 22; d[i] = d[i + 1] = d[i + 2] = val; d[i + 3] = 255; }
+      c.putImageData(img, 0, 0);
+      var rg = c.createRadialGradient(W * .5, H * .45, 0, W * .5, H * .45, Math.max(W, H) * .7);
+      rg.addColorStop(0, 'rgba(0,0,0,0)'); rg.addColorStop(1, dark ? 'rgba(0,0,0,.75)' : 'rgba(255,255,255,.5)');
+      c.fillStyle = rg; c.fillRect(0, 0, W, H); return;
+    }
+    if (name === 'cat') { paintSketchBg(c, W, H, dark); paintCat(c, W, H, dark); return; }
+    // aurora
+    g = c.createLinearGradient(0, 0, W, H);
+    if (dark) { g.addColorStop(0, '#141a4a'); g.addColorStop(.55, '#4a2a7a'); g.addColorStop(1, '#8a3860'); }
+    else { g.addColorStop(0, '#9fb8ff'); g.addColorStop(.55, '#d9b8f5'); g.addColorStop(1, '#ffc9d6'); }
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+    [[.2, .25, .5, dark ? 'rgba(80,140,255,.35)' : 'rgba(255,255,255,.45)'], [.75, .7, .6, dark ? 'rgba(240,110,160,.35)' : 'rgba(255,170,120,.35)'], [.6, .2, .4, dark ? 'rgba(150,90,255,.3)' : 'rgba(170,140,255,.35)']].forEach(function (b) {
+      var r = c.createRadialGradient(W * b[0], H * b[1], 0, W * b[0], H * b[1], Math.max(W, H) * b[2]);
+      r.addColorStop(0, b[3]); r.addColorStop(1, 'rgba(0,0,0,0)'); c.fillStyle = r; c.fillRect(0, 0, W, H);
+    });
+  }
+  // ---- sketch wallpaper: abstract ink-and-paper background + a loose ink-line cat ----
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  function inkPath(c, pts, w, passes, jit, alpha) {
+    for (var q = 0; q < passes; q++) {
+      c.lineWidth = w * rnd(.7, 1.25); c.globalAlpha = (alpha || .85) * rnd(.6, 1);
+      c.beginPath();
+      var p0 = pts[0]; c.moveTo(p0[0] + rnd(-jit, jit), p0[1] + rnd(-jit, jit));
+      for (var i = 1; i < pts.length - 1; i++) {
+        var a1 = pts[i], a2 = pts[i + 1], mx = (a1[0] + a2[0]) / 2 + rnd(-jit, jit), my = (a1[1] + a2[1]) / 2 + rnd(-jit, jit);
+        c.quadraticCurveTo(a1[0] + rnd(-jit, jit), a1[1] + rnd(-jit, jit), mx, my);
+      }
+      var pl = pts[pts.length - 1]; c.lineTo(pl[0] + rnd(-jit, jit), pl[1] + rnd(-jit, jit));
+      c.stroke();
+    }
+    c.globalAlpha = 1;
+  }
+  function ellipsePts(cx, cy, rx, ry, rot, a0, a1, n, wobble) {
+    var pts = [], cs = Math.cos(rot), sn = Math.sin(rot);
+    for (var i = 0; i <= n; i++) { var a = a0 + (a1 - a0) * i / n, k = 1 + rnd(-wobble, wobble), px = rx * k * Math.cos(a), py = ry * k * Math.sin(a); pts.push([cx + px * cs - py * sn, cy + px * sn + py * cs]); }
+    return pts;
+  }
+  function paintSketchBg(c, W, H, dark) {
+    // plain paper: one flat tone with a very soft vignette
+    c.fillStyle = dark ? '#1b1b1e' : '#f5f3ef'; c.fillRect(0, 0, W, H);
+    var v = c.createRadialGradient(W * .45, H * .4, Math.min(W, H) * .2, W * .5, H * .5, Math.max(W, H) * .85);
+    v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, dark ? 'rgba(0,0,0,.45)' : 'rgba(0,0,0,.06)');
+    c.fillStyle = v; c.fillRect(0, 0, W, H);
+  }
+  function paintCat(c, W, H, dark) {
+    var ink = dark ? '#ece6d8' : '#1e1c1a';
+    var ch = Math.min(H * .5, W * .36), cw = catImg.naturalWidth ? ch * catImg.naturalWidth / catImg.naturalHeight : ch * .94;
+    var cx = Math.max(W * .04, 24), cy = H - Math.max(H * .11, 70) - ch;
+    c.save();
+    if (catImg.complete && catImg.naturalWidth) {
+      try { c.filter = dark ? 'invert(1) brightness(1.05)' : 'none'; } catch (e) {}
+      c.drawImage(catImg, cx, cy, cw, ch);
+      try { c.filter = 'none'; } catch (e) {}
+    }
+    // handwritten message, no box
+    var f1 = Math.max(26, Math.min(W, H) * .07), f2 = Math.max(16, f1 * .62), tx = cx + cw + Math.min(W, H) * .04, ty = cy + ch * .66;
+    c.fillStyle = ink; c.textBaseline = 'alphabetic'; c.globalAlpha = .92; c.lineCap = 'round'; c.strokeStyle = ink;
+    c.font = '700 ' + f1 + 'px Caveat, "Segoe Script", "Bradley Hand", cursive'; c.fillText(MESSAGE[0], tx, ty);
+    c.font = '500 ' + f2 + 'px Caveat, "Segoe Script", "Bradley Hand", cursive'; c.fillText(MESSAGE[1], tx + f1 * .08, ty + f2 * 1.3);
+    c.font = '700 ' + f2 + 'px Caveat, "Segoe Script", "Bradley Hand", cursive'; c.fillText(MESSAGE[2], tx + f1 * .08, ty + f2 * 2.5);
+    var ew = c.measureText(MESSAGE[2]).width, uy = ty + f2 * 2.72;
+    c.lineWidth = f2 * .06; c.globalAlpha = .7; c.beginPath(); c.moveTo(tx + f1 * .05, uy); c.quadraticCurveTo(tx + ew * .5, uy + f2 * .12, tx + ew + f1 * .1, uy - f2 * .04); c.stroke();
+    c.globalAlpha = 1; c.restore();
+  }
+  function paintNoise(W, H, dark) {
+    nz.width = Math.ceil(W / 3); nz.height = Math.ceil(H / 3);
+    var c = nz.getContext('2d'), img = c.createImageData(nz.width, nz.height), d = img.data, base = dark ? 90 : 160;
+    for (var i = 0; i < d.length; i += 4) { d[i] = base + gauss() * 60; d[i + 1] = base + gauss() * 60; d[i + 2] = base + gauss() * 60; d[i + 3] = 255; }
+    c.putImageData(img, 0, 0);
+  }
+  function composite(k) {
+    var W = wall.width, H = wall.height;
+    wctx.clearRect(0, 0, W, H);
+    try { wctx.filter = k > .02 ? 'blur(' + (k * k * 24) + 'px)' : 'none'; } catch (e) {}
+    wctx.drawImage(scene, 0, 0);
+    try { wctx.filter = 'none'; } catch (e) {}
+    if (k > 0) { wctx.globalAlpha = Math.min(1, k * 1.15); wctx.drawImage(nz, 0, 0, W, H); wctx.globalAlpha = 1; }
+  }
+  function drawWall() {
+    if (!wall) return;
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var W = wall.width = Math.floor(innerWidth * dpr), H = wall.height = Math.floor(innerHeight * dpr), dark = isDark();
+    scene.width = W; scene.height = H; paintScene(scene.getContext('2d'), W, H, dark);
+    if (revealK > 0) paintNoise(W, H, dark);
+    composite(revealK);
+  }
+  function reveal() {
+    if (revealRaf) cancelAnimationFrame(revealRaf);
+    if (reduceMotion()) { revealK = 0; drawWall(); return; }
+    revealK = 1; var t0 = null, dur = 3200, n = 0; drawWall();
+    function step(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur); revealK = Math.pow(1 - p, 1.7);
+      if (n++ % 2 === 0 && revealK > .03) paintNoise(wall.width, wall.height, isDark());
+      composite(revealK);
+      if (p < 1) revealRaf = requestAnimationFrame(step); else { revealK = 0; revealRaf = null; composite(0); }
+    }
+    revealRaf = requestAnimationFrame(step);
   }
   $$('[data-wall]').forEach(function (b) {
     b.setAttribute('aria-pressed', String(b.dataset.wall === wallName));
     b.addEventListener('click', function () {
-      wallName = b.dataset.wall; prefs.wall = wallName; save(); drawWall();
+      wallName = b.dataset.wall; prefs.wall = wallName; save();
       $$('[data-wall]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      reveal();
     });
   });
-  drawWall(); window.addEventListener('resize', drawWall);
+  window.addEventListener('resize', drawWall);
+  if (document.fonts && document.fonts.load) Promise.all([document.fonts.load('700 20px Caveat'), document.fonts.load('500 20px Caveat')]).then(function () { drawWall(); }, function () {});
 
   /* ---------- windows ---------- */
   var z = 10, wins = $$('.win'), cascade = 0;
@@ -839,20 +1015,46 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   files['cv.txt'] = [cv.education, cv.experience, cv.teaching, cv.pubs, cv.honors, cv.skills].join('\n\n');
   function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
   function print(html) { var d = document.createElement('div'); d.innerHTML = html; out.appendChild(d); $('#term').scrollTop = 1e9; }
-  function echoCmd(c) { print('<span class="p">al@gatech</span> ~ % ' + esc(c)); }
+  // A tiny virtual filesystem for cd / ls / cat. Keys are directories; entries ending in "/" are subdirectories.
+  var FS = {
+    '~': ['about.txt', 'cv.txt', 'contact.txt', 'papers/', 'klip/', 'teaching/'],
+    '~/papers': ['klip_cvpr2026.pdf', 'lactos_arxiv2026.pdf', 'sord_draft.tex', 'icassp2025_symbolic_rl.pdf', 'semeval2025_emorationale.pdf'],
+    '~/klip': ['README.md', 'klip.py', 'configs/', 'results/'],
+    '~/klip/configs': ['celeba_deblur.yaml', 'xray_inpaint.yaml', 'medical_sr.yaml'],
+    '~/klip/results': ['README.md'],
+    '~/teaching': ['computational_imaging_f25.md', 'ece2040_circuits.md']
+  };
+  files['papers/sord_draft.tex'] = '\\title{SORD: Support-Guided OOD Removal with Diffusion}\n\\author{Alireza Kheirandish et al.}\n% in preparation';
+  files['klip/README.md'] = 'KLIP: Localized Distribution Shift Detection via KL-Divergence with Diffusion Priors in Inverse Problems\nCVPR 2026 · arXiv:2605.31596\n\nusage: python klip.py --config configs/celeba_deblur.yaml\n\nComputes a spatial KL divergence between the clean diffusion prior and the\nmeasurement-conditioned posterior; large values mark where the measurements\ncontradict the prior. No calibration set, no corruption model.';
+  files['klip/klip.py'] = '# KLIP reference implementation\n# see https://arxiv.org/abs/2605.31596';
+  files['klip/results/README.md'] = 'Figures and tables are in the paper; code link coming soon.';
+  files['teaching/computational_imaging_f25.md'] = 'Foundations of Computational Imaging — TA, Fall 2025\nOffice hours: Thursday 3–4 pm';
+  files['teaching/ece2040_circuits.md'] = 'ECE 2040 Circuit Analysis — TA, Georgia Tech';
+  var cwd = '~';
+  function resolve(path) {
+    if (!path || path === '~') return '~';
+    var parts = (path[0] === '~' || path[0] === '/' ? [] : cwd.split('/').slice(1)).concat(path.replace(/^~\/?|^\/+/, '').split('/'));
+    var out = [];
+    parts.forEach(function (q) { if (q === '..') out.pop(); else if (q && q !== '.') out.push(q); });
+    return '~' + (out.length ? '/' + out.join('/') : '');
+  }
+  function fileKey(path) { var r = resolve(path); return r.slice(2); }
+  function prompt() { return '<span class="p">al@gatech</span> ' + esc(cwd.split('/').pop() || '~') + ' % '; }
+  function echoCmd(c) { print(prompt() + esc(c)); }
   function runCmd(raw) {
     var c = raw.trim(); if (!c) return; echoCmd(c);
     var parts = c.split(/\s+/), cmd = parts[0].toLowerCase(), arg = parts.slice(1).join(' ');
     switch (cmd) {
-      case 'help': print('<span class="d">commands:</span> whoami · cv · education · experience · teaching · pubs · honors · skills · contact · ls · cat &lt;file&gt; · open &lt;app&gt; · neofetch · clear'); break;
+      case 'cd': { var t = resolve(arg || '~'); if (FS[t]) { cwd = t; $('#cwd').textContent = cwd.split('/').pop() || '~'; } else print('cd: no such directory: ' + esc(arg)); break; }
+      case 'help': print('<span class="d">commands:</span> whoami · cv · education · experience · teaching · pubs · honors · skills · contact · ls · cd &lt;dir&gt; · cat &lt;file&gt; · pwd · open &lt;app&gt; · neofetch · clear'); break;
       case 'whoami': print('al — Ph.D. student at Georgia Tech, working on diffusion models for inverse problems.'); break;
       case 'cv': print(files['cv.txt']); break;
       case 'education': case 'experience': case 'teaching': case 'pubs': case 'publications': case 'honors': case 'skills': print(cv[cmd === 'publications' ? 'pubs' : cmd]); break;
       case 'contact': print(esc(files['contact.txt'])); break;
-      case 'ls': print('about.txt  cv.txt  contact.txt  <span class="p">papers/</span>  <span class="p">klip/</span>'); break;
-      case 'cat': if (files[arg]) print(arg === 'cv.txt' ? files[arg] : esc(files[arg])); else print('cat: ' + esc(arg || '') + ': No such file or directory'); break;
+      case 'ls': case 'dir': { var d = resolve(arg || '.'); if (FS[d]) print(FS[d].map(function (f) { return f.slice(-1) === '/' ? '<span class="p">' + f + '</span>' : esc(f); }).join('  ') || '<span class="d">(empty)</span>'); else if (files[fileKey(arg)]) print(esc(arg)); else print('ls: ' + esc(arg) + ': No such file or directory'); break; }
+      case 'cat': { var k = fileKey(arg); if (files[k]) print(k === 'cv.txt' ? files[k] : esc(files[k])); else if (FS[resolve(arg)]) print('cat: ' + esc(arg) + ': Is a directory'); else print('cat: ' + esc(arg || '') + ': No such file or directory'); break; }
       case 'open': var id = arg.toLowerCase().replace('.app', ''); if ($('#w-' + id)) { openApp(id); print('<span class="ok">opened ' + esc(id) + '</span>'); } else print('open: no app named ' + esc(arg)); break;
-      case 'pwd': print('/Users/al'); break;
+      case 'pwd': print('/Users/al' + cwd.slice(1)); break;
       case 'date': print(new Date().toString()); break;
       case 'neofetch': print('<span class="p">al@gatech</span>\n<span class="d">-----------</span>\n<span class="h">OS</span>       Georgia Tech ECE, Ph.D. track\n<span class="h">Host</span>     VOILA Lab (Fridovich-Keil)\n<span class="h">Kernel</span>   Diffusion priors for inverse problems\n<span class="h">Uptime</span>   since 2024\n<span class="h">Shell</span>    PyTorch, Python, MATLAB\n<span class="h">Theme</span>    KLIP · SORD · LACToS\n<span class="h">GPA</span>      4.0 / 4.0'); break;
       case 'clear': out.innerHTML = ''; break;
@@ -871,15 +1073,25 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   $('#term').addEventListener('click', function () { tin.focus({ preventScroll: true }); });
 
   /* ---------- diffusion toy ---------- */
-  var cv2 = $('#diff'), ctx = cv2.getContext('2d'), N = 900, target = [], noise = [], ood = [], diffT = 1, diffRan = false, start = null, dur = 7000, raf = null;
+  var cv2 = $('#diff'), ctx = cv2.getContext('2d'), N = 900, OOD_N = 130, target = [], noise = [], ood = [], diffT = 1, diffRan = false, start = null, dur = 7000, raf = null;
   function gauss() { var u = 1 - Math.random(), v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.283 * v); }
   function build() {
     var W = cv2.width, H = cv2.height; target = []; noise = []; ood = [];
+    // In-distribution manifold: a happy face (outline, eyes, smile). OOD set: frowny lips on the same face —
+    // the prior expects a smile, the measurements show a frown, so the shift is localized at the mouth.
+    var cx = W * .5, cy = H * .5, R = H * .38, j = R * .015;
     for (var i = 0; i < N; i++) {
-      var isO = i < 70, tx, ty;
-      if (isO) { tx = W * .82 + gauss() * W * .02; ty = H * .28 + gauss() * H * .05; }
-      else { var a = Math.random() * Math.PI, top = Math.random() < .5, r = H * .3 + gauss() * H * .018; var cx = W * .42, dx = H * .24;
-        tx = top ? cx + r * Math.cos(a) : cx + dx + r * Math.cos(a + Math.PI); ty = top ? H * .58 - r * Math.sin(a) * .9 : H * .42 + r * Math.sin(a) * .9; }
+      var isO = i < OOD_N, tx, ty, a, u, t;
+      if (isO) {
+        a = Math.PI * (.18 + .64 * Math.random()); t = Math.random();            // lens-shaped lips, corners turned down
+        tx = cx + .46 * R * Math.cos(a);
+        ty = cy + .48 * R - .42 * R * Math.sin(a) + t * .06 * R * Math.sin(a);
+      } else {
+        u = Math.random();
+        if (u < .5) { a = Math.random() * 6.283; tx = cx + R * Math.cos(a) + gauss() * j; ty = cy + R * Math.sin(a) + gauss() * j; }
+        else if (u < .65) { tx = cx + (Math.random() < .5 ? -.35 : .35) * R + gauss() * R * .07; ty = cy - .25 * R + gauss() * R * .07; }
+        else { a = Math.PI * (.2 + .6 * Math.random()); tx = cx + .55 * R * Math.cos(a) + gauss() * j; ty = cy + .12 * R + .55 * R * Math.sin(a) + gauss() * j; }
+      }
       target.push([tx, ty]); ood.push(isO); noise.push([W * .5 + gauss() * W * .18, H * .5 + gauss() * H * .3]);
     }
   }
@@ -889,7 +1101,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
     var W = cv2.width, H = cv2.height; ctx.clearRect(0, 0, W, H);
     var hl = $('#hl').checked, alpha = Math.pow(tt, 1.6);
     for (var i = 0; i < N; i++) {
-      var k = ood[i] ? Math.max(alpha, .55) : alpha, x = target[i][0] * (1 - k) + noise[i][0] * k, y = target[i][1] * (1 - k) + noise[i][1] * k;
+      var k = ood[i] ? Math.max(alpha, .025) : alpha, x = target[i][0] * (1 - k) + noise[i][0] * k, y = target[i][1] * (1 - k) + noise[i][1] * k;
       var mark = hl && ood[i] && tt < .25;
       ctx.beginPath(); ctx.arc(x, y, mark ? 4.4 : 3, 0, 6.283);
       ctx.fillStyle = mark ? '#ff7a9c' : '#d6f5c9'; ctx.globalAlpha = mark ? .95 : .6; ctx.fill();
@@ -1005,9 +1217,54 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   $('#lb').addEventListener('click', function (e) { if (e.target === $('#lb')) $('#lb').hidden = true; });
   document.addEventListener('keydown', function (e) { if ($('#lb').hidden) return; if (e.key === 'Escape') $('#lb').hidden = true; if (e.key === 'ArrowLeft') stepLb(-1); if (e.key === 'ArrowRight') stepLb(1); });
 
+  /* ---------- menu bar ---------- */
+  var openMenu = null;
+  function closeMenus() { if (!openMenu) return; $('#dd-' + openMenu).hidden = true; $('[data-menu="' + openMenu + '"]').setAttribute('aria-expanded', 'false'); openMenu = null; }
+  function showMenu(name, btn) {
+    closeMenus(); openMenu = name; var dd = $('#dd-' + name); dd.hidden = false; btn.setAttribute('aria-expanded', 'true');
+    var r = btn.getBoundingClientRect(); dd.style.left = Math.min(r.left, innerWidth - dd.offsetWidth - 8) + 'px';
+    if (name === 'window') {
+      var list = $('#winlist'); list.innerHTML = '';
+      wins.forEach(function (w) { var b = document.createElement('button'); b.type = 'button'; b.innerHTML = (w.hidden ? '' : '<span class="k">●</span> ') + w.dataset.title; b.addEventListener('click', function () { openApp(w.dataset.app); closeMenus(); }); list.appendChild(b); });
+    }
+    if (name === 'view') $('#motionmark').textContent = $('#motion').checked ? '✓' : '';
+  }
+  $$('[data-menu]').forEach(function (b) {
+    b.addEventListener('click', function (e) { e.stopPropagation(); if (openMenu === b.dataset.menu) closeMenus(); else showMenu(b.dataset.menu, b); });
+    b.addEventListener('mouseenter', function () { if (openMenu && openMenu !== b.dataset.menu) showMenu(b.dataset.menu, b); });
+  });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.dd')) closeMenus(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenus(); });
+  function focusedWin() { return wins.filter(function (w) { return !w.hidden; }).sort(function (a, b) { return (+b.style.zIndex || 0) - (+a.style.zIndex || 0); })[0]; }
+  $$('.dd [data-do]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var d = b.dataset.do, w = focusedWin(); closeMenus();
+      if (d.indexOf('open:') === 0) openApp(d.slice(5));
+      else if (d.indexOf('wall:') === 0) { var t = $('[data-wall="' + d.slice(5) + '"]'); if (t) t.click(); }
+      else if (d === 'about' || d === 'settings') openApp('settings');
+      else if (d === 'reveal') reveal();
+      else if (d === 'sleep') $('#sleep').hidden = false;
+      else if (d === 'close' && w) closeApp(w);
+      else if (d === 'min' && w) w.hidden = true;
+      else if (d === 'zoom' && w) w.classList.toggle('max');
+      else if (d === 'front') wins.forEach(function (x) { if ($('[data-open="' + x.dataset.app + '"].dk').classList.contains('open')) x.hidden = false; });
+      else if (d === 'copyemail') copyText('akheirandish3@gatech.edu', 'Email address copied');
+      else if (d === 'copybib') copyText(pubs[0].bib, 'BibTeX copied');
+      else if (d === 'theme') applyTheme(isDark() ? 'light' : 'dark');
+      else if (d === 'motion') { $('#motion').checked = !$('#motion').checked; $('#motion').dispatchEvent(new Event('change')); }
+      else if (d === 'helpterm') { openApp('terminal'); runCmd('help'); }
+    });
+  });
+  $('#sleep').addEventListener('click', function () { $('#sleep').hidden = true; });
+  document.addEventListener('keydown', function (e) {
+    if (!(e.metaKey || e.ctrlKey)) return; var w = focusedWin();
+    if (e.key === 'w' && w) { e.preventDefault(); closeApp(w); } else if (e.key === 'm' && w) { e.preventDefault(); w.hidden = true; } else if (e.key === 'n') { e.preventDefault(); openApp('notes'); }
+  });
+
   /* ---------- boot ---------- */
+  reveal();
   openApp('notes');
-  if (!isMobile()) { var w = $('#w-notes'); w.style.top = '76px'; w.style.left = Math.max(16, (innerWidth - w.offsetWidth) / 2) + 'px'; }
+  if (!isMobile()) { var w = $('#w-notes'); w.style.width = Math.min(760, innerWidth - 32) + 'px'; w.style.height = Math.min(440, innerHeight - 170) + 'px'; w.style.top = '56px'; w.style.left = Math.max(16, innerWidth - w.offsetWidth - 120) + 'px'; }
 })();
 </script>
 </body>
