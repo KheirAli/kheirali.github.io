@@ -769,7 +769,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   }
   $$('[data-theme-choice]').forEach(function (b) { b.addEventListener('click', function () { applyTheme(b.dataset.themeChoice); }); });
   $('#themeBtn').addEventListener('click', function () { applyTheme(isDark() ? 'light' : 'dark'); });
-  if (prefs.theme) applyTheme(prefs.theme);
+  if (prefs.theme) { try { applyTheme(prefs.theme); } catch (e) {} }
   (function () { var mq = window.matchMedia('(prefers-color-scheme: light)'), fn = function () { drawWall(); drawDiff(diffT); }; if (mq.addEventListener) mq.addEventListener('change', fn); else if (mq.addListener) mq.addListener(fn); })();
 
   /* ---------- wallpaper ---------- */
@@ -1108,7 +1108,7 @@ pre.bib { font: 11.5px/1.5 var(--mono); background: var(--term-bg); color: #e6e6
   }
   function sizeDiff() { var r = cv2.getBoundingClientRect(); if (r.width < 10) return; cv2.width = Math.floor(r.width * 2); cv2.height = Math.floor(r.height * 2); build(); drawDiff(diffT); }
   function drawDiff(tt) {
-    if (!target.length) return;
+    if (!target || !target.length || !ctx) return;
     var W = cv2.width, H = cv2.height; ctx.clearRect(0, 0, W, H);
     var hl = $('#hl').checked, alpha = Math.pow(tt, 1.6);
     for (var i = 0; i < N; i++) {
